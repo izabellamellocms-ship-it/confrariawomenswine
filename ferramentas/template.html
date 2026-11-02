@@ -192,8 +192,8 @@ a.chip { text-decoration: none; }
   <header class="hero">
     <p class="eyebrow">Confraria de Mulheres de Óleo &amp; Gás · Rio de Janeiro</p>
     <h1>Women's Wine</h1>
-    <p class="tagline">Comunidade, liderança e conexões que movem negócios</p>
-    <p class="lead">Mulheres do setor de energia que se encontram em volta de uma mesa para provar vinhos, trocar histórias e abrir portas umas para as outras.</p>
+    <p class="tagline">${esc(S.tagline || "Comunidade, liderança e conexões que movem negócios")}</p>
+    <p class="lead">${esc(S.lead || "Mulheres do setor de energia que se encontram em volta de uma mesa para provar vinhos, trocar histórias e abrir portas umas para as outras.")}</p>
     <div class="vintage">
       <span class="chip"><b>${eds.length}</b> edições</span>
       <a class="chip" href="#participantes"><b>${total}</b> participantes</a>

@@ -21,8 +21,18 @@ for i in ids:
 for f in os.listdir(os.path.join(R,'fotos')):
     if f[:-4] not in paths: os.remove(os.path.join(R,'fotos',f))
 t=open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'template.html')).read()
-t=t.replace('const blob = (id) => "/_blob/" + encodeURIComponent(id);','const PHOTOS = __PHOTOS__;\n  const blob = (id) => PHOTOS[id] || "";')
-t=t.replace('  if (window.claude && window.claude.use) {','  if (false) {')
+PHOTO_JS='''const PHOTOS = __PHOTOS__;
+  const blob = (x) => {
+    if (!x) return "";
+    if (PHOTOS[x]) return PHOTOS[x];
+    const s = String(x).trim();
+    const m = s.match(/\\/d\\/([\\w-]{20,})/) || s.match(/[?&]id=([\\w-]{20,})/);
+    if (m && /google\\.com/.test(s)) return "https://lh3.googleusercontent.com/d/" + m[1] + "=w1600";
+    return s;
+  };'''
+t=t.replace('const blob = (id) => "/_blob/" + encodeURIComponent(id);', PHOTO_JS)
+LOADER=open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'sheet_loader.js')).read()
+t=t.replace('  if (window.claude && window.claude.use) {', LOADER+'\n  if (false) {')
 t=t.replace('__PHOTOS__',json.dumps(paths))
 body=t.replace('__STATE__',json.dumps(state,ensure_ascii=False).replace('<','\\u003c'))
 html='<!doctype html>\n<html lang="pt-BR">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n<meta name="description" content="Women\'s Wine: confraria de mulheres de Óleo, Gás e Energia no Rio de Janeiro.">\n</head>\n<body style="margin:0">\n'+body+'\n</body>\n</html>\n'
