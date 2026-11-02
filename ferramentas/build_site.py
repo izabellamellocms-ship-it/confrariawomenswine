@@ -20,7 +20,7 @@ for i in ids:
 # remove fotos que não estão mais na página
 for f in os.listdir(os.path.join(R,'fotos')):
     if f[:-4] not in paths: os.remove(os.path.join(R,'fotos',f))
-t=open('os.path.join(os.path.dirname(os.path.abspath(__file__)),"template.html")').read()
+t=open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'template.html')).read()
 t=t.replace('const blob = (id) => "/_blob/" + encodeURIComponent(id);','const PHOTOS = __PHOTOS__;\n  const blob = (id) => PHOTOS[id] || "";')
 t=t.replace('  if (window.claude && window.claude.use) {','  if (false) {')
 t=t.replace('__PHOTOS__',json.dumps(paths))
