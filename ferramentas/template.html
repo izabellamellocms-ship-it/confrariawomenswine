@@ -1,0 +1,523 @@
+<title>Women's Wine Confraria</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=Figtree:wght@400;500;600&display=swap">
+<style id="css">
+/* Layout: one editorial column on plum; hero → história → fundadoras (arched portraits) → participantes (filterable grid) → galeria (masonry) → lista de presença. Same identity as the event page. */
+:root {
+  /* Community palette from the Women's Wine banner: cream paper, deep bordeaux ink, wine accent. Deliberately single light look. */
+  --bg: #f3e9df; --surface: #fbf6f0; --surface-2: #ecdfd2; --line: #dfcdbf;
+  --fg: #2a0306; --muted: #5e3a3b; --rose: #3d0610; --rose-ink: #f8efe6; --wine: #6a1e2a; --danger: #9a1c1c;
+  --serif: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --sans: "Figtree", "Helvetica Neue", Arial, sans-serif;
+  color-scheme: light;
+}
+html, body { background: var(--bg); color: var(--fg); }
+body { font-family: var(--sans); font-size: 17px; line-height: 1.6; }
+a { color: var(--rose); }
+.wrap { max-width: 1040px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 40px 64px; display: flex; flex-direction: column; gap: 72px; }
+.eyebrow { color: var(--rose); font-size: 13px; letter-spacing: .14em; text-transform: uppercase; margin: 0; }
+h1, h2, h3 { font-family: var(--serif); font-weight: 400; letter-spacing: -.01em; margin: 0; text-wrap: balance; }
+h1 { font-size: clamp(48px, 12vw, 104px); line-height: .95; text-transform: uppercase; letter-spacing: .01em; }
+h2 { font-size: clamp(34px, 6vw, 48px); line-height: 1.05; }
+h3 { font-size: 26px; line-height: 1.1; }
+p { margin: 0; }
+.muted { color: var(--muted); }
+section { display: flex; flex-direction: column; gap: 22px; }
+.head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 24px; }
+.head > div { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+
+.hero { display: grid; gap: 22px; padding-top: 12px; }
+.hero .tagline { font-size: 18px; color: var(--fg); border-top: 1px solid var(--muted); padding-top: 12px; max-width: 26em; margin: 0; }
+.hero .lead { font-size: 20px; color: var(--muted); max-width: 34em; }
+.vintage { display: flex; flex-wrap: wrap; gap: 10px; }
+.chip { border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.chip b { color: var(--fg); font-weight: 600; }
+
+.story { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 32px; }
+.story article { display: flex; flex-direction: column; gap: 10px; border-top: 1px solid var(--line); padding-top: 18px; min-width: 0; }
+.story p { white-space: pre-line; max-width: 34em; }
+
+.founders { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 32px; }
+.founder { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+.portrait { width: 100%; max-width: 320px; aspect-ratio: 4 / 5; border-radius: 160px 160px 8px 8px; background: radial-gradient(120% 90% at 50% 0%, var(--surface-2), var(--surface)); border: 1px solid var(--line); overflow: hidden; display: grid; place-items: center; position: relative; }
+.portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.portrait .ini { font-family: var(--serif); font-size: 88px; color: var(--rose); opacity: .7; }
+.founder .role { color: var(--muted); font-size: 15px; }
+
+.tools { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+input[type=search], input[type=text], input[type=url], select, textarea { font: inherit; font-size: 16px; color: var(--fg); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; min-width: 0; }
+input[type=search] { width: min(100%, 320px); }
+textarea { width: 100%; min-height: 140px; resize: vertical; }
+input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible, a:focus-visible { outline: 2px solid var(--rose); outline-offset: 2px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+.seg button { border: 0; background: transparent; color: var(--muted); padding: 9px 14px; font: 500 14px var(--sans); cursor: pointer; }
+.seg button[aria-pressed=true] { background: var(--rose); color: var(--rose-ink); }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr)); gap: 12px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.card .name { font-family: var(--serif); font-size: 23px; line-height: 1.15; overflow-wrap: anywhere; }
+.card .co { color: var(--muted); font-size: 15px; min-height: 1.5em; overflow-wrap: anywhere; }
+.card .row { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: auto; padding-top: 8px; }
+.tags { display: flex; gap: 4px; }
+.tag { font-size: 12px; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 1px 8px; font-variant-numeric: tabular-nums; }
+.li { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: 14px; text-decoration: none; color: var(--rose); }
+.li svg { width: 16px; height: 16px; }
+.nolink { font-size: 13px; color: var(--muted); }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 10px 18px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); font: 600 15px var(--sans); cursor: pointer; text-decoration: none; }
+.btn.primary { background: var(--rose); color: var(--rose-ink); border-color: var(--rose); }
+.btn.small { min-height: 34px; padding: 6px 12px; font-size: 13px; }
+.btn.danger { color: var(--danger); }
+.btn[disabled] { opacity: .5; cursor: progress; }
+.linkbtn { background: none; border: 0; color: var(--muted); font: 13px var(--sans); cursor: pointer; padding: 4px; text-decoration: underline; }
+
+.gallery { columns: 3 260px; column-gap: 12px; }
+.gallery figure { break-inside: avoid; margin: 0 0 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.gallery img { width: 100%; display: block; cursor: zoom-in; }
+.gallery figcaption { padding: 8px 12px; font-size: 14px; color: var(--muted); display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+.empty { border: 1px dashed var(--line); border-radius: 12px; padding: 32px 20px; text-align: center; color: var(--muted); display: flex; flex-direction: column; gap: 8px; align-items: center; }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.panel .fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 10px; }
+.status { font-size: 14px; color: var(--rose); min-height: 1.4em; }
+.confirm { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 14px; }
+
+.lightbox { position: fixed; inset: 0; z-index: 20; background: color-mix(in srgb, var(--bg) 94%, transparent); display: grid; place-items: center; padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.lightbox img { max-height: 84vh; max-width: 100%; border-radius: 8px; }
+.lightbox p { text-align: center; color: var(--muted); margin-top: 10px; }
+.lightbox button { position: absolute; top: calc(12px + env(safe-area-inset-top, 0px)); right: calc(12px + env(safe-area-inset-right, 0px)); }
+
+.closing { border-top: 1px solid var(--line); padding-top: 28px; display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center; }
+.editbar { position: fixed; right: calc(16px + env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 15; box-shadow: 0 6px 20px color-mix(in srgb, var(--fg) 25%, transparent); }
+@media (prefers-reduced-motion: no-preference) { .card, .gallery figure { transition: border-color .2s; } .card:hover { border-color: var(--wine); } }
+
+.topnav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 12; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.navin { max-width: 1040px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 10px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 20px; }
+.brand { font-family: var(--serif); font-size: 20px; text-transform: uppercase; letter-spacing: .04em; color: var(--fg); text-decoration: none; }
+.links { display: flex; flex-wrap: wrap; gap: 4px; }
+.links a { color: var(--muted); text-decoration: none; padding: 6px 10px; border-radius: 999px; font-size: 15px; }
+.links a[aria-current=page] { color: var(--rose-ink); background: var(--rose); }
+a.chip { text-decoration: none; }
+.editions { display: flex; flex-direction: column; gap: 0; }
+.edition { display: grid; grid-template-columns: minmax(64px, 120px) 1fr; gap: 20px; border-top: 1px solid var(--line); padding-block: 28px; }
+.edition .num { font-family: var(--serif); font-size: clamp(64px, 12vw, 120px); line-height: .85; color: var(--rose); }
+.ebody { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.stats { display: flex; flex-wrap: wrap; gap: 8px; }
+.names { color: var(--muted); font-size: 15px; line-height: 1.8; }
+.names a { color: var(--fg); text-decoration-color: var(--line); }
+.strip { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
+.strip img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; cursor: zoom-in; }
+.chk { display: inline-flex; gap: 6px; align-items: center; font-size: 14px; color: var(--muted); }
+.card input[type=text], .card input[type=url] { width: 100%; }
+.founder .eyebrow input { width: 100%; }
+.status { position: fixed; left: max(16px, env(safe-area-inset-left, 0px)); bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 15; max-width: calc(100% - 200px); }
+@media (max-width: 480px) { .edition { grid-template-columns: 1fr; gap: 4px; } }
+
+.nextbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding: 14px 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--fg); text-decoration: none; }
+.nextbar:hover { border-color: var(--wine); }
+.pill { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; font-weight: 600; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+.pill.abertas { background: var(--rose); color: var(--rose-ink); border-color: var(--rose); }
+.pill.encerradas { text-decoration: line-through; }
+.event-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: clamp(20px, 4vw, 40px); display: flex; flex-direction: column; gap: 14px; }
+.event-when { font-family: var(--serif); font-size: 24px; color: var(--muted); }
+.regs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 12px; margin-top: 8px; }
+.reg { position: relative; display: flex; flex-direction: column; gap: 2px; padding: 18px 48px 18px 20px; border-radius: 12px; background: var(--rose); color: var(--rose-ink); text-decoration: none; min-height: 72px; justify-content: center; }
+.reg-l { font-weight: 600; font-size: 17px; }
+.reg-s { font-size: 14px; opacity: .85; }
+.reg-go { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); font-size: 22px; }
+.reg.off { background: transparent; color: var(--muted); border: 1px dashed var(--line); padding-right: 20px; }
+.fl { display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: var(--muted); min-width: 0; }
+
+.gal-ed { display: flex; flex-direction: column; gap: 14px; border-top: 1px solid var(--line); padding-top: 22px; }
+.gal-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; }
+.gal-none { font-size: 15px; }
+</style>
+<div id="app"></div>
+<script type="application/json" id="state">__STATE__</script>
+<script id="main">
+(function () {
+  const S = JSON.parse(document.getElementById("state").textContent);
+  const app = document.getElementById("app");
+  let assets = null, artifact = null, editing = false, filter = "todas", q = "", pendingDelete = null, busy = false, msg = "";
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const blob = (id) => "/_blob/" + encodeURIComponent(id);
+  const ini = (n) => n.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join("");
+  const LI = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4v11H3zM9.5 9.75h3.8v1.5h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1v5.46h-4v-4.84c0-1.16-.02-2.64-1.61-2.64-1.6 0-1.85 1.25-1.85 2.55v4.93h-4z"/></svg>';
+  const canEdit = () => !!(assets && artifact);
+
+  const VIEWS = [["inicio", "Início"], ["encontros", "Próximos encontros"], ["participantes", "Participantes"], ["galeria", "Galeria"]];
+  const STATUS = { breve: "Inscrições em breve", abertas: "Inscrições abertas", encerradas: "Inscrições encerradas" };
+  let view = "inicio", editP = null, editE = null;
+  function readHash() { const h = (location.hash || "").slice(1); view = VIEWS.some((v) => v[0] === h) ? h : "inicio"; }
+
+  function partCard(p) {
+    if (editing && editP === p.id) return `
+      <form class="card" data-savep="${p.id}">
+        <input type="text" id="ep-nome" value="${esc(p.nome)}" aria-label="Nome" required>
+        <input type="text" id="ep-emp" value="${esc(p.empresa)}" placeholder="Empresa" aria-label="Empresa">
+        <input type="url" id="ep-li" value="${esc(p.linkedin)}" placeholder="https://www.linkedin.com/in/..." aria-label="LinkedIn">
+        <div class="tools">${S.edicoes.map((e) => `<label class="chk"><input type="checkbox" name="ep-ed" value="${esc(e.id)}" ${p.edicoes.includes(e.id) ? "checked" : ""}> ${esc(e.titulo)}</label>`).join("")}</div>
+        <div class="tools"><button class="btn primary small" type="submit">Salvar</button><button class="linkbtn" type="button" data-cancel>Cancelar</button></div>
+      </form>`;
+    return `
+      <article class="card">
+        <span class="name">${esc(p.nome)}</span>
+        <span class="co">${esc(p.empresa)}</span>
+        <div class="row">
+          ${p.linkedin ? `<a class="li" href="${esc(p.linkedin)}" target="_blank" rel="noopener" aria-label="LinkedIn de ${esc(p.nome)}">${LI} LinkedIn</a>` : `<span class="nolink">LinkedIn a incluir</span>`}
+          <span class="tags">${p.edicoes.map((e) => `<span class="tag">${esc(e)}</span>`).join("")}</span>
+        </div>
+        ${editing ? (pendingDelete === p.id
+          ? `<div class="confirm">Remover ${esc(p.nome)}? <button class="btn small danger" data-delp="${p.id}">Remover</button><button class="linkbtn" data-cancel>Cancelar</button></div>`
+          : `<div class="tools"><button class="linkbtn" data-editp="${p.id}">Editar</button><button class="linkbtn" data-askp="${p.id}">Remover</button></div>`) : ""}
+      </article>`;
+  }
+
+  function galleryHtml(items) {
+    if (!items.length) return `<div class="empty"><strong>As fotos dos encontros aparecem aqui.</strong><span>${canEdit() ? "Toque em Editar página e depois em Escolher fotos." : "A organização vai subir as fotos em breve."}</span></div>`;
+    return `<div class="gallery">${items.slice().reverse().map((g) => `
+      <figure><img src="${blob(g.foto)}" alt="${esc(g.legenda || "Foto do encontro")}" loading="lazy" data-view="${g.id}">
+        <figcaption><span>${esc(g.legenda || "")}</span><span class="tag">${esc(g.edicao)}</span></figcaption>
+        ${editing ? `<figcaption>${pendingDelete === g.id ? `<span class="confirm">Apagar esta foto? <button class="btn small danger" data-delg="${g.id}">Apagar</button><button class="linkbtn" data-cancel>Cancelar</button></span>` : `<button class="linkbtn" data-askg="${g.id}">Apagar foto</button>`}</figcaption>` : ""}
+      </figure>`).join("")}</div>`;
+  }
+
+  function vInicio() {
+    const eds = S.edicoes, total = S.participantes.length;
+    return `
+  <header class="hero">
+    <p class="eyebrow">Confraria de Mulheres de Óleo &amp; Gás · Rio de Janeiro</p>
+    <h1>Women's Wine</h1>
+    <p class="tagline">Comunidade, liderança e conexões que movem negócios</p>
+    <p class="lead">Mulheres do setor de energia que se encontram em volta de uma mesa para provar vinhos, trocar histórias e abrir portas umas para as outras.</p>
+    <div class="vintage">
+      <span class="chip"><b>${eds.length}</b> edições</span>
+      <a class="chip" href="#participantes"><b>${total}</b> participantes</a>
+      <a class="chip" href="#galeria"><b>${S.galeria.length}</b> fotos</a>
+    </div>
+  </header>
+  ${nextBanner()}
+  <section aria-labelledby="h-historia">
+    <div class="head"><div><p class="eyebrow">Sobre a confraria</p><h2 id="h-historia">Por que existimos</h2></div>
+      ${editing ? `<button class="btn small" id="saveText">Salvar textos</button>` : ""}</div>
+    <div class="story">
+      <article><h3>Como surgiu</h3>${editing ? `<textarea id="t-historia" aria-label="Como surgiu">${esc(S.historia)}</textarea>` : `<p>${esc(S.historia)}</p>`}</article>
+      <article><h3>Nosso objetivo</h3>${editing ? `<textarea id="t-objetivo" aria-label="Nosso objetivo">${esc(S.objetivo)}</textarea>` : `<p>${esc(S.objetivo)}</p>`}</article>
+    </div>
+  </section>
+  <section aria-labelledby="h-fund">
+    <div class="head"><div><p class="eyebrow">Quem organiza</p><h2 id="h-fund">As fundadoras</h2></div></div>
+    <div class="founders">
+      ${S.fundadoras.map((f) => `
+      <div class="founder">
+        <div class="portrait">${f.foto ? `<img src="${blob(f.foto)}" alt="Foto de ${esc(f.nome)}">` : `<span class="ini" aria-hidden="true">${esc(ini(f.nome))}</span>`}</div>
+        <p class="eyebrow">${editing ? `<input type="text" id="fr-${f.id}" value="${esc(f.papel)}" aria-label="Papel de ${esc(f.nome)}">` : esc(f.papel)}</p>
+        <h3>${esc(f.nome)}</h3>
+        ${editing ? `<textarea id="fd-${f.id}" aria-label="Descrição de ${esc(f.nome)}" style="min-height:90px">${esc(f.descricao)}</textarea>` : `<p class="role">${esc(f.descricao)}</p>`}
+        <div class="tools">
+          ${f.linkedin ? `<a class="li" href="${esc(f.linkedin)}" target="_blank" rel="noopener">${LI} LinkedIn</a>` : ""}
+          ${editing ? `<label class="btn small" for="f-${f.id}">${f.foto ? "Trocar foto" : "Carregar foto"}</label><input type="file" id="f-${f.id}" data-founder="${f.id}" accept="image/*" hidden>` : ""}
+        </div>
+      </div>`).join("")}
+    </div>
+    ${editing ? `<div><button class="btn small" id="saveFund">Salvar papéis e descrições</button></div>` : ""}
+  </section>`;
+  }
+
+  function vEdicoes() {
+    return `
+  <section aria-labelledby="h-ed">
+    <div class="head"><div><p class="eyebrow">Acompanhe a confraria</p><h2 id="h-ed">Edições</h2>
+      <p class="muted">Cada encontro, quem esteve presente e as fotos da noite.</p></div></div>
+    ${editing ? `<form class="panel" id="addE"><strong>Nova edição</strong>
+      <div class="fields"><input type="text" id="ne-quando" placeholder="Data, ex.: 25 de novembro de 2026" required aria-label="Data">
+      <input type="text" id="ne-desc" placeholder="Descrição curta (opcional)" aria-label="Descrição"></div>
+      <div><button class="btn primary small" type="submit">Adicionar edição</button></div></form>` : ""}
+    <div class="editions">
+      ${S.edicoes.slice().reverse().map((e) => {
+        const ps = S.participantes.filter((p) => p.edicoes.includes(e.id));
+        const fotos = S.galeria.filter((g) => g.edicao === e.id);
+        const n = parseInt(e.id, 10) || "";
+        return `
+      <article class="edition" id="ed-${n}">
+        <div class="num" aria-hidden="true">${n}</div>
+        <div class="ebody">
+          ${editing && editE === e.id ? `
+            <form class="panel" data-savee="${esc(e.id)}"><div class="fields">
+              <input type="text" id="ee-quando" value="${esc(e.quando)}" aria-label="Data" required>
+              <input type="text" id="ee-desc" value="${esc(e.descricao)}" placeholder="Descrição" aria-label="Descrição"></div>
+              <div class="tools"><button class="btn primary small" type="submit">Salvar</button><button class="linkbtn" type="button" data-cancel>Cancelar</button></div></form>`
+          : `<p class="eyebrow">${esc(e.titulo)}</p><h3>${esc(e.quando)}</h3>${e.descricao ? `<p class="muted">${esc(e.descricao)}</p>` : ""}
+             ${editing ? `<div><button class="linkbtn" data-edite="${esc(e.id)}">Editar edição</button></div>` : ""}`}
+          <div class="stats"><span class="chip"><b>${ps.length}</b> participantes</span><span class="chip"><b>${fotos.length}</b> fotos</span></div>
+          ${ps.length ? `<p class="names">${ps.map((p) => p.linkedin ? `<a href="${esc(p.linkedin)}" target="_blank" rel="noopener">${esc(p.nome)}</a>` : esc(p.nome)).join(" · ")}</p>` : ""}
+          ${fotos.length ? `<div class="strip">${fotos.slice(-6).map((g) => `<img src="${blob(g.foto)}" alt="${esc(g.legenda || "Foto da " + e.titulo)}" loading="lazy" data-view="${g.id}">`).join("")}</div>` : ""}
+        </div>
+      </article>`; }).join("")}
+    </div>
+  </section>`;
+  }
+
+
+  function regButtons(P) {
+    const open = P.status === "abertas";
+    const b = (url, label, sub) => open && url
+      ? `<a class="reg" href="${esc(url)}" target="_blank" rel="noopener"><span class="reg-l">${label}</span><span class="reg-s">${sub}</span><span class="reg-go" aria-hidden="true">→</span></a>`
+      : `<div class="reg off" aria-disabled="true"><span class="reg-l">${label}</span><span class="reg-s">${open ? "Link em preparação" : esc(STATUS[P.status] || "")}</span></div>`;
+    return `<div class="regs">${b(P.formParticipante, "Sou participante do clube", "Já estive em um encontro")}${b(P.formIndicada, "Fui indicada", "Uma participante me convidou")}</div>`;
+  }
+  function nextBanner() {
+    const P = S.proximo; if (!P) return "";
+    return `<a class="nextbar" href="#encontros"><span class="pill ${esc(P.status)}">${esc(STATUS[P.status] || "")}</span><span><b>Próximo encontro:</b> ${esc(P.titulo)} · ${esc(P.quando)}</span><span aria-hidden="true">→</span></a>`;
+  }
+  function vEncontros() {
+    const P = S.proximo;
+    if (editing) return `
+  <section aria-labelledby="h-enc">
+    <div class="head"><div><p class="eyebrow">Próximos encontros</p><h2 id="h-enc">Inscrições</h2></div></div>
+    <form class="panel" id="saveProx">
+      <div class="fields">
+        <label class="fl">Edição<input type="text" id="px-tit" value="${esc(P.titulo)}"></label>
+        <label class="fl">Data<input type="text" id="px-quando" value="${esc(P.quando)}"></label>
+        <label class="fl">Situação<select id="px-status">${Object.entries(STATUS).map(([k, l]) => `<option value="${k}" ${P.status === k ? "selected" : ""}>${l}</option>`).join("")}</select></label>
+      </div>
+      <label class="fl">Texto de apoio<textarea id="px-desc" style="min-height:90px">${esc(P.descricao)}</textarea></label>
+      <div class="fields">
+        <label class="fl">Link do formulário · participante do clube<input type="url" id="px-fp" value="${esc(P.formParticipante)}" placeholder="https://forms.gle/..."></label>
+        <label class="fl">Link do formulário · indicada<input type="url" id="px-fi" value="${esc(P.formIndicada)}" placeholder="https://forms.gle/..."></label>
+      </div>
+      <p class="muted" style="font-size:14px">Os botões só ficam clicáveis com a situação "Inscrições abertas" e o link preenchido.</p>
+      <div><button class="btn primary small" type="submit">Salvar próximo encontro</button></div>
+    </form>
+  </section>`;
+    return `
+  <section aria-labelledby="h-enc" class="event">
+    <p class="eyebrow">Próximos encontros</p>
+    <div class="event-card">
+      <div class="event-top"><span class="pill ${esc(P.status)}">${esc(STATUS[P.status] || "")}</span></div>
+      <h2 id="h-enc">${esc(P.titulo)}</h2>
+      <p class="event-when">${esc(P.quando)}</p>
+      ${P.descricao ? `<p class="muted" style="white-space:pre-line;max-width:36em">${esc(P.descricao)}</p>` : ""}
+      ${regButtons(P)}
+    </div>
+  </section>`;
+  }
+
+  function vParticipantes() {
+    const eds = S.edicoes, total = S.participantes.length;
+    const list = S.participantes.filter((p) => (filter === "todas" || p.edicoes.includes(filter)) && (!q || (p.nome + " " + p.empresa).toLowerCase().includes(q.toLowerCase())));
+    const comLi = S.participantes.filter((p) => p.linkedin).length;
+    return `
+  <section aria-labelledby="h-part">
+    <div class="head">
+      <div><p class="eyebrow">Conheça as participantes</p><h2 id="h-part">Participantes do clube</h2>
+      <p class="muted">${total} participantes · ${comLi} com LinkedIn</p></div>
+      <div class="tools">
+        <input type="search" id="q" placeholder="Buscar nome ou empresa" value="${esc(q)}" aria-label="Buscar participante">
+        <div class="seg" role="group" aria-label="Filtrar por edição">
+          <button data-f="todas" aria-pressed="${filter === "todas"}">Todas</button>
+          ${eds.map((e) => `<button data-f="${esc(e.id)}" aria-pressed="${filter === e.id}">${esc(e.titulo)}</button>`).join("")}
+        </div>
+      </div>
+    </div>
+    ${editing ? `<form class="panel" id="addP"><strong>Adicionar participante</strong>
+      <div class="fields">
+        <input type="text" id="np-nome" placeholder="Nome e sobrenome" required aria-label="Nome">
+        <input type="text" id="np-emp" placeholder="Empresa" aria-label="Empresa">
+        <input type="url" id="np-li" placeholder="https://www.linkedin.com/in/..." aria-label="LinkedIn">
+        <select id="np-ed" aria-label="Edição">${eds.map((e) => `<option value="${esc(e.id)}" ${e === eds[eds.length - 1] ? "selected" : ""}>${esc(e.titulo)}</option>`).join("")}</select>
+      </div><div><button class="btn primary small" type="submit">Adicionar</button></div></form>` : ""}
+    ${editing ? `<form class="panel" id="addE"><strong>Nova edição</strong>
+      <div class="fields"><input type="text" id="ne-quando" placeholder="Data, ex.: 25 de novembro de 2026" required aria-label="Data da edição">
+      <input type="text" id="ne-desc" placeholder="Descrição curta (opcional)" aria-label="Descrição da edição"></div>
+      <div><button class="btn primary small" type="submit">Criar edição</button></div></form>` : ""}
+    ${list.length ? `<div class="grid">${list.map(partCard).join("")}</div>` : `<div class="empty">Nenhuma participante encontrada com esse filtro.</div>`}
+  </section>`;
+  }
+
+  function vGaleria() {
+    const eds = S.edicoes;
+    return `
+  <section aria-labelledby="h-gal">
+    <div class="head"><div><p class="eyebrow">Galeria</p><h2 id="h-gal">Nossos encontros</h2></div></div>
+    ${editing ? `<div class="panel"><strong>Subir fotos</strong>
+      <div class="fields">
+        <select id="g-ed" aria-label="Edição das fotos">${eds.map((e) => `<option value="${esc(e.id)}" ${e === eds[eds.length - 1] ? "selected" : ""}>${esc(e.titulo)}</option>`).join("")}</select>
+        <input type="text" id="g-leg" placeholder="Legenda (opcional)" aria-label="Legenda">
+      </div>
+      <div><label class="btn primary small" for="g-files">Escolher fotos</label><input type="file" id="g-files" accept="image/*" multiple hidden></div></div>` : ""}
+    ${S.galeria.length ? S.edicoes.slice().reverse().map((e) => {
+      const fotos = S.galeria.filter((g) => g.edicao === e.id);
+      return `<div class="gal-ed" id="gal-${parseInt(e.id, 10) || ""}">
+        <div class="gal-head"><h3>${esc(e.titulo)}</h3><span class="muted">${esc(e.quando)} · ${fotos.length} ${fotos.length === 1 ? "foto" : "fotos"}</span></div>
+        ${fotos.length ? galleryHtml(fotos) : `<p class="muted gal-none">Fotos desta edição em breve.</p>`}
+      </div>`; }).join("") : galleryHtml([])}
+  </section>`;
+  }
+
+  function render() {
+    const body = view === "encontros" ? vEncontros() : view === "participantes" ? vParticipantes() : view === "galeria" ? vGaleria() : vInicio();
+    app.innerHTML = `
+<nav class="topnav" aria-label="Seções"><div class="navin">
+  <a class="brand" href="#inicio">Women's Wine</a>
+  <div class="links">${VIEWS.map(([k, l]) => `<a href="#${k}" ${view === k ? 'aria-current="page"' : ""}>${l}</a>`).join("")}</div>
+</div></nav>
+<div class="wrap">
+${body}
+  <footer class="closing">
+    <p class="muted">Women's Wine · Confraria de Mulheres de Óleo &amp; Gás · Rio de Janeiro</p>
+  </footer>
+</div>
+${canEdit() ? `<div class="editbar"><button class="btn primary" id="toggleEdit">${editing ? "Concluir edição" : "Editar página"}</button></div>` : ""}
+<div class="status" role="status" aria-live="polite">${esc(msg)}</div>`;
+    const qi = document.getElementById("q");
+    if (qi && q) { qi.focus(); qi.setSelectionRange(q.length, q.length); }
+  }
+
+  function documentHtml() {
+    const reset = ':root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}';
+    const json = JSON.stringify(S).replace(/</g, "\\u003c");
+    const css = document.getElementById("css").textContent;
+    const js = document.getElementById("main").textContent;
+    const SC = "<" + "/script>";
+    return '<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>' + reset + '</style></head><body>' +
+      "<title>Women's Wine Confraria</title>\n" +
+      '<meta name="claude:viewport-fit-sides" content="cover">\n' +
+      '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
+      '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=Figtree:wght@400;500;600&display=swap">\n' +
+      '<style id="css">' + css + '</style>\n<div id="app"></div>\n' +
+      '<script type="application/json" id="state">' + json + SC + '\n' +
+      '<script id="main">' + js + SC + '</body></html>';
+  }
+
+  async function save(note) {
+    msg = "Salvando…"; render();
+    try { await artifact.publish(documentHtml()); msg = note; }
+    catch (e) { msg = e && e.code === "conflict" ? "Outra pessoa salvou ao mesmo tempo. A página foi atualizada; refaça a última alteração." : "Não foi possível salvar. Verifique se você tem acesso de edição e tente de novo."; }
+    render();
+  }
+
+  async function uploadImage(file) {
+    if (!file.type.startsWith("image/")) throw new Error("tipo");
+    const r = await assets.upload(file);
+    return r.id;
+  }
+
+  app.addEventListener("input", (e) => { if (e.target.id === "q") { q = e.target.value; render(); } });
+  app.addEventListener("click", async (e) => {
+    const t = e.target.closest("button, img[data-view]");
+    if (!t) return;
+    if (t.dataset.f) { filter = t.dataset.f; render(); return; }
+    if (t.id === "toggleEdit") { editing = !editing; pendingDelete = null; editP = null; editE = null; msg = ""; render(); return; }
+    if (t.dataset.view) { openLightbox(t.dataset.view); return; }
+    if (t.dataset.askp || t.dataset.askg) { pendingDelete = t.dataset.askp || t.dataset.askg; render(); return; }
+    if (t.hasAttribute("data-cancel")) { pendingDelete = null; editP = null; editE = null; render(); return; }
+    if (t.dataset.delp) { S.participantes = S.participantes.filter((p) => p.id !== t.dataset.delp); pendingDelete = null; await save("Participante removida."); return; }
+    if (t.dataset.delg) {
+      const g = S.galeria.find((x) => x.id === t.dataset.delg);
+      S.galeria = S.galeria.filter((x) => x.id !== t.dataset.delg); pendingDelete = null;
+      if (g) { try { await assets.delete(g.foto); } catch (_) {} }
+      await save("Foto apagada."); return;
+    }
+    if (t.dataset.editp) { editP = t.dataset.editp; pendingDelete = null; render(); return; }
+    if (t.dataset.edite) { editE = t.dataset.edite; render(); return; }
+    if (t.id === "saveFund") {
+      S.fundadoras.forEach((f) => { f.papel = document.getElementById("fr-" + f.id).value.trim(); f.descricao = document.getElementById("fd-" + f.id).value.trim(); });
+      await save("Papéis salvos."); return;
+    }
+    if (t.id === "saveText") {
+      S.historia = document.getElementById("t-historia").value.trim();
+      S.objetivo = document.getElementById("t-objetivo").value.trim();
+      await save("Textos salvos."); return;
+    }
+  });
+  const normLi = (li) => { li = (li || "").trim(); if (!li) return ""; if (!/linkedin\.com\/in\//.test(li)) return null; li = li.split("?")[0]; return /^https?:/.test(li) ? li : "https://" + li; };
+  app.addEventListener("submit", async (e) => {
+    const f = e.target;
+    if (f.dataset.savep) {
+      e.preventDefault();
+      const p = S.participantes.find((x) => x.id === f.dataset.savep); if (!p) return;
+      const li = normLi(document.getElementById("ep-li").value);
+      if (li === null) { msg = "O link do LinkedIn precisa ter o formato linkedin.com/in/…"; render(); return; }
+      const eds = Array.from(f.querySelectorAll('input[name="ep-ed"]:checked')).map((x) => x.value);
+      if (!eds.length) { msg = "Marque ao menos uma edição. Para tirar a pessoa da lista, use Remover."; render(); return; }
+      p.nome = document.getElementById("ep-nome").value.trim() || p.nome; p.empresa = document.getElementById("ep-emp").value.trim(); p.linkedin = li; p.edicoes = eds;
+      S.participantes.sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR")); editP = null;
+      await save(p.nome + " atualizada."); return;
+    }
+    if (f.dataset.savee) {
+      e.preventDefault();
+      const ed = S.edicoes.find((x) => x.id === f.dataset.savee); if (!ed) return;
+      ed.quando = document.getElementById("ee-quando").value.trim() || ed.quando; ed.descricao = document.getElementById("ee-desc").value.trim(); editE = null;
+      await save(ed.titulo + " atualizada."); return;
+    }
+    if (f.id === "saveProx") {
+      e.preventDefault();
+      const fp = document.getElementById("px-fp").value.trim(), fi = document.getElementById("px-fi").value.trim();
+      if ([fp, fi].some((u) => u && !/^https?:\/\//.test(u))) { msg = "Os links dos formulários precisam começar com https://"; render(); return; }
+      S.proximo = { titulo: document.getElementById("px-tit").value.trim(), quando: document.getElementById("px-quando").value.trim(), status: document.getElementById("px-status").value, descricao: document.getElementById("px-desc").value.trim(), formParticipante: fp, formIndicada: fi };
+      await save("Próximo encontro salvo."); return;
+    }
+    if (f.id === "addE") {
+      e.preventDefault();
+      const n = S.edicoes.length + 1, id = n + "ª";
+      S.edicoes.push({ id, titulo: id + " edição", quando: document.getElementById("ne-quando").value.trim(), descricao: document.getElementById("ne-desc").value.trim() });
+      await save(id + " edição criada."); return;
+    }
+    if (f.id !== "addP") return;
+    e.preventDefault();
+    const nome = document.getElementById("np-nome").value.trim();
+    if (!nome) return;
+    let li = document.getElementById("np-li").value.trim();
+    if (li && !/linkedin\.com\/in\//.test(li)) { msg = "O link do LinkedIn precisa ter o formato linkedin.com/in/…"; render(); return; }
+    if (li) li = li.split("?")[0];
+    const ed = document.getElementById("np-ed").value;
+    const ex = S.participantes.find((p) => p.nome.toLowerCase() === nome.toLowerCase());
+    if (ex) { if (!ex.edicoes.includes(ed)) ex.edicoes.push(ed); if (li) ex.linkedin = li; }
+    else S.participantes.push({ id: "n" + Date.now().toString(36), nome, empresa: document.getElementById("np-emp").value.trim(), linkedin: li, edicoes: [ed] });
+    S.participantes.sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
+    await save(ex ? nome + " já estava na lista; edição atualizada." : nome + " foi adicionada.");
+  });
+  app.addEventListener("change", async (e) => {
+    const el = e.target;
+    if (el.dataset.founder && el.files[0]) {
+      if (busy) return; busy = true; msg = "Enviando foto…"; render();
+      try { const id = await uploadImage(el.files[0]); const f = S.fundadoras.find((x) => x.id === el.dataset.founder); const old = f.foto; f.foto = id; await save("Foto atualizada."); if (old) { try { await assets.delete(old); } catch (_) {} } }
+      catch (_) { msg = "Não foi possível enviar a foto. Use uma imagem JPG ou PNG de até 20 MB."; render(); }
+      busy = false; return;
+    }
+    if (el.id === "g-files" && el.files.length) {
+      if (busy) return; busy = true;
+      const ed = document.getElementById("g-ed").value, leg = document.getElementById("g-leg").value.trim();
+      const files = Array.from(el.files); let ok = 0;
+      for (const [i, f] of files.entries()) {
+        msg = `Enviando foto ${i + 1} de ${files.length}…`; render();
+        try { const id = await uploadImage(f); S.galeria.push({ id: "g" + Date.now().toString(36) + i, foto: id, legenda: leg, edicao: ed }); ok++; } catch (_) {}
+      }
+      busy = false;
+      if (ok) await save(ok === files.length ? `${ok} foto(s) adicionada(s).` : `${ok} de ${files.length} fotos enviadas. As outras não são imagens válidas.`);
+      else { msg = "Nenhuma foto foi enviada. Use imagens JPG ou PNG de até 20 MB."; render(); }
+    }
+  });
+
+  function openLightbox(id) {
+    const g = S.galeria.find((x) => x.id === id); if (!g) return;
+    const lb = document.createElement("div"); lb.className = "lightbox"; lb.setAttribute("role", "dialog"); lb.setAttribute("aria-label", "Foto ampliada");
+    lb.innerHTML = `<div><img src="${blob(g.foto)}" alt="${esc(g.legenda || "Foto do encontro")}">${g.legenda ? `<p>${esc(g.legenda)}</p>` : ""}</div><button class="btn small">Fechar</button>`;
+    const close = () => { lb.remove(); document.removeEventListener("keydown", onKey); };
+    const onKey = (ev) => { if (ev.key === "Escape") close(); };
+    lb.addEventListener("click", (ev) => { if (ev.target === lb || ev.target.tagName === "BUTTON") close(); });
+    document.addEventListener("keydown", onKey); document.body.appendChild(lb); lb.querySelector("button").focus();
+  }
+
+  readHash();
+  window.addEventListener("hashchange", () => { readHash(); q = ""; render(); window.scrollTo(0, 0); });
+  render();
+  if (window.claude && window.claude.use) {
+    Promise.all([window.claude.use("assets").catch(() => null), window.claude.use("artifact").catch(() => null)]).then(([a, b]) => { assets = a; artifact = b; render(); });
+  }
+})();
+</script>
