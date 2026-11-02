@@ -370,6 +370,7 @@ a.chip { text-decoration: none; }
 ${body}
   <footer class="closing">
     <p class="muted">Women's Wine · Confraria de Mulheres de Óleo &amp; Gás · Rio de Janeiro</p>
+    ${artifact && !canEdit() ? `<button class="linkbtn" id="orgEdit">Sou organizadora · editar</button>` : ""}
   </footer>
 </div>
 ${canEdit() ? `<div class="editbar"><button class="btn primary" id="toggleEdit">${editing ? "Concluir edição" : "Editar página"}</button></div>` : ""}
@@ -397,7 +398,12 @@ ${canEdit() ? `<div class="editbar"><button class="btn primary" id="toggleEdit">
   async function save(note) {
     msg = "Salvando…"; render();
     try { await artifact.publish(documentHtml()); msg = note; }
-    catch (e) { msg = e && e.code === "conflict" ? "Outra pessoa salvou ao mesmo tempo. A página foi atualizada; refaça a última alteração." : "Não foi possível salvar. Verifique se você tem acesso de edição e tente de novo."; }
+    catch (e) {
+      const c = e && e.code;
+      msg = c === "conflict" ? "Outra pessoa salvou ao mesmo tempo. A página foi atualizada; refaça a última alteração."
+        : (c === "not_writer" || c === "not_granted") ? "Esta conta não tem permissão para editar. Entre no Claude com o e-mail convidado como Editor e aceite o convite. (código: " + c + ")"
+        : "Não foi possível salvar. Tente de novo em instantes. (código: " + (c || "desconhecido") + ")";
+    }
     render();
   }
 
@@ -412,6 +418,7 @@ ${canEdit() ? `<div class="editbar"><button class="btn primary" id="toggleEdit">
     const t = e.target.closest("button, img[data-view]");
     if (!t) return;
     if (t.dataset.f) { filter = t.dataset.f; render(); return; }
+    if (t.id === "orgEdit") { editor = true; editing = true; msg = ""; render(); window.scrollTo(0, 0); return; }
     if (t.id === "toggleEdit") { editing = !editing; pendingDelete = null; editP = null; editE = null; msg = ""; render(); return; }
     if (t.dataset.view) { openLightbox(t.dataset.view); return; }
     if (t.dataset.askp || t.dataset.askg) { pendingDelete = t.dataset.askp || t.dataset.askg; render(); return; }
