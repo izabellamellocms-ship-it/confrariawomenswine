@@ -141,12 +141,13 @@ a.chip { text-decoration: none; }
 (function () {
   const S = JSON.parse(document.getElementById("state").textContent);
   const app = document.getElementById("app");
-  let assets = null, artifact = null, editing = false, filter = "todas", q = "", pendingDelete = null, busy = false, msg = "";
+  let assets = null, artifact = null, editor = false, editing = false, filter = "todas", q = "", pendingDelete = null, busy = false, msg = "";
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const blob = (id) => "/_blob/" + encodeURIComponent(id);
   const ini = (n) => n.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join("");
   const LI = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4v11H3zM9.5 9.75h3.8v1.5h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1v5.46h-4v-4.84c0-1.16-.02-2.64-1.61-2.64-1.6 0-1.85 1.25-1.85 2.55v4.93h-4z"/></svg>';
-  const canEdit = () => !!(assets && artifact);
+  const canEdit = () => !!(artifact && (editor || assets));
+  const NOFOTO = `<p class="muted" style="font-size:14px">O envio de fotos não está disponível nesta conta. Peça à dona da página para subir as fotos.</p>`;
 
   const VIEWS = [["inicio", "Início"], ["encontros", "Próximos encontros"], ["participantes", "Participantes"], ["galeria", "Galeria"]];
   const STATUS = { breve: "Inscrições em breve", abertas: "Inscrições abertas", encerradas: "Inscrições encerradas" };
@@ -219,7 +220,7 @@ a.chip { text-decoration: none; }
         ${editing ? `<textarea id="fd-${f.id}" aria-label="Descrição de ${esc(f.nome)}" style="min-height:90px">${esc(f.descricao)}</textarea>` : `<p class="role">${esc(f.descricao)}</p>`}
         <div class="tools">
           ${f.linkedin ? `<a class="li" href="${esc(f.linkedin)}" target="_blank" rel="noopener">${LI} LinkedIn</a>` : ""}
-          ${editing ? `<label class="btn small" for="f-${f.id}">${f.foto ? "Trocar foto" : "Carregar foto"}</label><input type="file" id="f-${f.id}" data-founder="${f.id}" accept="image/*" hidden>` : ""}
+          ${editing && assets ? `<label class="btn small" for="f-${f.id}">${f.foto ? "Trocar foto" : "Carregar foto"}</label><input type="file" id="f-${f.id}" data-founder="${f.id}" accept="image/*" hidden>` : ""}
         </div>
       </div>`).join("")}
     </div>
@@ -348,7 +349,7 @@ a.chip { text-decoration: none; }
         <select id="g-ed" aria-label="Edição das fotos">${eds.map((e) => `<option value="${esc(e.id)}" ${e === eds[eds.length - 1] ? "selected" : ""}>${esc(e.titulo)}</option>`).join("")}</select>
         <input type="text" id="g-leg" placeholder="Legenda (opcional)" aria-label="Legenda">
       </div>
-      <div><label class="btn primary small" for="g-files">Escolher fotos</label><input type="file" id="g-files" accept="image/*" multiple hidden></div></div>` : ""}
+      ${assets ? `<div><label class="btn primary small" for="g-files">Escolher fotos</label><input type="file" id="g-files" accept="image/*" multiple hidden></div>` : NOFOTO}</div>` : ""}
     ${S.galeria.length ? S.edicoes.slice().reverse().map((e) => {
       const fotos = S.galeria.filter((g) => g.edicao === e.id);
       return `<div class="gal-ed" id="gal-${parseInt(e.id, 10) || ""}">
@@ -517,7 +518,11 @@ ${canEdit() ? `<div class="editbar"><button class="btn primary" id="toggleEdit">
   window.addEventListener("hashchange", () => { readHash(); q = ""; render(); window.scrollTo(0, 0); });
   render();
   if (window.claude && window.claude.use) {
-    Promise.all([window.claude.use("assets").catch(() => null), window.claude.use("artifact").catch(() => null)]).then(([a, b]) => { assets = a; artifact = b; render(); });
+    Promise.all([window.claude.use("assets").catch(() => null), window.claude.use("artifact").catch(() => null), window.claude.use("user").catch(() => null)]).then(async ([a, b, u]) => {
+      assets = a; artifact = b;
+      try { editor = u ? !!(await u.canEdit()) : false; } catch (_) { editor = false; }
+      render();
+    });
   }
 })();
 </script>
