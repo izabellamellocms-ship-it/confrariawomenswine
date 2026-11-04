@@ -267,7 +267,7 @@ a.chip { text-decoration: none; }
     const open = P.status === "abertas";
     const b = (url, label, sub) => open && url
       ? `<a class="reg" href="${esc(url)}" target="_blank" rel="noopener"><span class="reg-l">${label}</span><span class="reg-s">${sub}</span><span class="reg-go" aria-hidden="true">→</span></a>`
-      : `<div class="reg off" aria-disabled="true"><span class="reg-l">${label}</span><span class="reg-s">${open ? "Link em preparação" : esc(STATUS[P.status] || "")}</span></div>`;
+      : `<div class="reg off" aria-disabled="true"><span class="reg-l">${label}</span><span class="reg-s">${open ? "Inscrições em breve" : esc(STATUS[P.status] || "")}</span></div>`;
     return `<div class="regs">${b(P.formParticipante, "Sou participante do clube", "Já estive em um encontro")}${b(P.formIndicada, "Fui indicada", "Uma participante me convidou")}</div>`;
   }
   function nextBanner() {
