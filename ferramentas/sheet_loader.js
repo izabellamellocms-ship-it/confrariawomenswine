@@ -31,7 +31,9 @@
         else if (n.startsWith("edic")) P.titulo = v;
         else if (n.startsWith("data")) P.quando = v;
         else if (n.startsWith("situa")) { const s = norm(v); P.status = s.startsWith("abert") ? "abertas" : s.startsWith("encerr") ? "encerradas" : "breve"; }
-        else if (n.startsWith("texto")) P.descricao = v; });
+        else if (n.startsWith("texto")) P.descricao = v;
+        else if (n.startsWith("link") && n.includes("lista")) P.listaLink = v.trim();
+        else if (n.startsWith("aviso")) P.listaAviso = v; });
       S.proximo = P;
     },
     Edicoes(rows) {

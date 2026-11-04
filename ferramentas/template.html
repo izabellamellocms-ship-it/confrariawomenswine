@@ -134,6 +134,11 @@ a.chip { text-decoration: none; }
 .gal-ed { display: flex; flex-direction: column; gap: 14px; border-top: 1px solid var(--line); padding-top: 22px; }
 .gal-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; }
 .gal-none { font-size: 15px; }
+
+.lista { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; padding: 16px 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); margin-top: 4px; }
+.lista-txt { display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1 1 260px; }
+.lista-aviso { font-size: 14px; color: var(--muted); }
+.lista-aviso::before { content: "⚠ "; color: var(--wine); }
 </style>
 <div id="app"></div>
 <script type="application/json" id="state">__STATE__</script>
@@ -303,6 +308,11 @@ a.chip { text-decoration: none; }
       <p class="event-when">${esc(P.quando)}</p>
       ${P.descricao ? `<p class="muted" style="white-space:pre-line;max-width:36em">${esc(P.descricao)}</p>` : ""}
       ${regButtons(P)}
+      ${P.listaLink ? `<div class="lista">
+        <div class="lista-txt"><strong>Presenças confirmadas</strong>
+          <span class="lista-aviso">${esc(P.listaAviso || "Lista parcial: não é a lista final e está sujeita a alterações.")}</span></div>
+        <a class="btn" href="${esc(P.listaLink)}" target="_blank" rel="noopener">Ver lista de presenças →</a>
+      </div>` : ""}
     </div>
   </section>`;
   }
