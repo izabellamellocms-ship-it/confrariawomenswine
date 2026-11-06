@@ -20,3 +20,8 @@ Participantes, Galeria, Edicoes, Fundadoras. O site lê a planilha ao abrir
 (`sheet_loader.js`); o `index.html` traz uma cópia embutida usada se a
 planilha não responder. Fotos novas: pasta "Women's Wine – Fotos do site" no
 Drive (compartilhada por link), com o link colado na aba Galeria.
+
+## Regra para formulários de inscrição
+Todo formulário de inscrição (participantes, indicadas ou qualquer outro)
+tem que ter o campo **WhatsApp (com DDD)** como pergunta **obrigatória**.
+O WhatsApp fica só na planilha de respostas, nunca na planilha do site.
