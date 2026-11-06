@@ -49,6 +49,17 @@
     Galeria(rows) {
       S.galeria = filled(rows).filter((r) => String(r[1]).trim()).map(([ed, foto, leg], i) => ({ id: "f" + i, foto: foto.trim(), legenda: leg || "", edicao: edId(ed) }));
     },
+    Presencas(rows) {
+      if (rows.some((r) => /^#(REF|N\/A|ERROR)/.test(String(r[0])))) return;
+      S.presencas = filled(rows).filter((r) => String(r[0]).trim() && !/cancel|duplic/i.test(String(r[3] || "")))
+        .map(([nome, sobrenome, empresa]) => ({ nome: (String(nome).trim() + " " + String(sobrenome || "").trim()).trim(), empresa: String(empresa || "").trim() }));
+    },
+    Vagas(rows) {
+      const V = {};
+      // a primeira linha da aba vira cabeçalho na leitura; inclui também ela
+      rows.forEach(([k, v]) => { const n = norm(k); if (n.includes("restante")) V.restantes = v; else if (n.includes("total")) V.total = v; });
+      S.vagas = V;
+    },
     Fundadoras(rows) {
       const list = filled(rows).filter((r) => String(r[0]).trim()).map(([nome, papel, desc, linkedin, foto]) => ({
         id: norm(nome).replace(/[^a-z0-9]+/g, "-"), nome: nome.trim(), papel: papel || "", descricao: desc || "", linkedin: (linkedin || "").trim(), foto: (foto || "").trim() }));

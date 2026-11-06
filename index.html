@@ -147,6 +147,12 @@ a.chip { text-decoration: none; }
 .lista-txt { display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1 1 260px; }
 .lista-aviso { font-size: 14px; color: var(--muted); }
 .lista-aviso::before { content: "⚠ "; color: var(--wine); }
+
+.pres { list-style: none; counter-reset: p; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 10px; }
+.pres li { counter-increment: p; display: grid; grid-template-columns: 2.2em 1fr; column-gap: 8px; align-items: baseline; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; min-width: 0; }
+.pres li::before { content: counter(p); grid-row: span 2; font-family: var(--serif); font-size: 22px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.pres .name { font-family: var(--serif); font-size: 21px; line-height: 1.2; overflow-wrap: anywhere; }
+.pres .co { color: var(--muted); font-size: 14px; overflow-wrap: anywhere; }
 </style>
 <div id="app"></div>
 <script type="application/json" id="state">{"version": 1, "historia": "A Confraria nasceu de uma conversa entre Lalesca Costa e Izabela Silva, da vontade de criar um espaço de encontro entre mulheres que compartilham experiências e desafios no universo de Óleo & Gás, Energia e Comércio Exterior.\n\nA ideia ganhou forma nas semanas que antecederam a Rio Oil & Gas, inicialmente como um encontro de aproximação entre profissionais do setor. Mas a intenção foi além daquele primeiro momento: criar algo que pudesse continuar, crescer e gerar conexões para além de um evento.\n\nAssim nasceu uma iniciativa que une vinho, relacionamento e networking com um propósito em comum.", "objetivo": "Criar uma comunidade de mulheres que encontram na Confraria um espaço para compartilhar experiências, ampliar conhecimentos, discutir os movimentos e desafios do mercado, abrir portas e construir oportunidades.\n\nEntre vinhos e boas conversas, buscamos fortalecer relações que ultrapassem os encontros presenciais e continuem no dia a dia, por meio da troca, da colaboração e da confiança construída ao longo do caminho.\n\nAcreditamos no crescimento orgânico, na presença e na qualidade das conexões. Mais do que reunir pessoas, queremos cultivar relações que tenham significado e possam gerar valor dentro e fora do ambiente profissional.\n\nPorque o networking pode começar com um vinho, mas não precisa terminar nele. 🍷❤️", "fundadoras": [{"id": "lalesca", "nome": "Lalesca Costa", "papel": "Idealizadora", "descricao": "Idealizou a Confraria a partir do desejo de aproximar mulheres do ecossistema de Óleo & Gás, criando um espaço de encontros, boas conversas e conexões genuínas. Retomou a ideia e impulsionou sua realização, dando início a uma iniciativa que valoriza o relacionamento, a troca de experiências e a força das conexões femininas.", "linkedin": "https://www.linkedin.com/in/lalesca-costa", "foto": "19d39a5a1022f175c42837ce7517f0b9"}, {"id": "izabela", "nome": "Izabela Silva", "papel": "Curadoria", "descricao": "\"Convocada\" por Lalesca para integrar a iniciativa, abraçou o desafio de transformar a ideia em uma comunidade ativa. Desde então, atua na curadoria dos encontros, articulação de novas conexões, indicação de participantes, escolha dos espaços e organização das experiências, compartilhando com Lalesca a construção e o desenvolvimento da Confraria.", "linkedin": "https://www.linkedin.com/in/izasilva", "foto": "a188d7443c2b3bdbf464b452e1dec2bd"}], "edicoes": [{"id": "1ª", "titulo": "1ª edição", "quando": "Setembro de 2026", "descricao": "O encontro que deu origem à confraria."}, {"id": "2ª", "titulo": "2ª edição", "quando": "28 de outubro de 2026", "descricao": "Primeira edição com convidadas indicadas pelas participantes."}], "participantes": [{"id": "q07", "nome": "Celina Coutinho", "empresa": "PM3", "linkedin": "https://www.linkedin.com/in/celinacoutinho", "edicoes": ["1ª"]}, {"id": "q00", "nome": "Danyella Louise", "empresa": "Camorim", "linkedin": "https://www.linkedin.com/in/danyellalouise", "edicoes": ["1ª"]}, {"id": "p07", "nome": "Edna Andrade", "empresa": "Galp", "linkedin": "https://www.linkedin.com/in/edna-andrade-55255777", "edicoes": ["1ª", "2ª"]}, {"id": "p28", "nome": "Eliane Lima Machado", "empresa": "Petrobras / JS Energy", "linkedin": "https://www.linkedin.com/in/elianemachadobr", "edicoes": ["2ª"]}, {"id": "p21", "nome": "Eliane Águia", "empresa": "", "linkedin": "", "edicoes": ["2ª"]}, {"id": "p33", "nome": "Fernanda Hermes", "empresa": "SEG", "linkedin": "https://www.linkedin.com/in/fernanda-clara-hermes", "edicoes": ["2ª"]}, {"id": "p03", "nome": "Fernanda dos Santos Siqueira", "empresa": "SBM Offshore", "linkedin": "https://www.linkedin.com/in/fernandadosssiqueira", "edicoes": ["1ª", "2ª"]}, {"id": "p00", "nome": "Gabriella Martins", "empresa": "Hydratight", "linkedin": "https://www.linkedin.com/in/gabriella-martins-a99438113", "edicoes": ["1ª", "2ª"]}, {"id": "p23", "nome": "Giovana Virgolino", "empresa": "Imex Expert", "linkedin": "https://www.linkedin.com/in/giovana-virgolino", "edicoes": ["2ª"]}, {"id": "q02", "nome": "Isabela Bezerra", "empresa": "Solar Turbines", "linkedin": "https://www.linkedin.com/in/isabelabezerra", "edicoes": ["1ª"]}, {"id": "p05", "nome": "Izabella de Abreu", "empresa": "Origem Energia", "linkedin": "https://www.linkedin.com/in/izabellabreu", "edicoes": ["1ª", "2ª"]}, {"id": "q12", "nome": "Joana Demori", "empresa": "Bunker One", "linkedin": "https://www.linkedin.com/in/joanademori", "edicoes": ["1ª"]}, {"id": "p18", "nome": "Juliana Leal", "empresa": "Equinor", "linkedin": "https://www.linkedin.com/in/julianabsleal", "edicoes": ["2ª"]}, {"id": "q11", "nome": "Jéssica Moraes", "empresa": "EIC", "linkedin": "", "edicoes": ["1ª"]}, {"id": "p08", "nome": "Júlia Ornellas", "empresa": "Fugro", "linkedin": "https://www.linkedin.com/in/j%C3%BAlia-ornellas", "edicoes": ["1ª", "2ª"]}, {"id": "q08", "nome": "Karoline Rodrigues", "empresa": "Halliburton", "linkedin": "https://www.linkedin.com/in/karrodrigues", "edicoes": ["1ª"]}, {"id": "p01", "nome": "Karollayne Almada", "empresa": "Subsea7", "linkedin": "https://www.linkedin.com/in/karollayne-almada-3b890b169", "edicoes": ["1ª", "2ª"]}, {"id": "p09", "nome": "Larissa Dias Neves", "empresa": "HPA Brasil", "linkedin": "https://www.linkedin.com/in/larissadiasneves", "edicoes": ["1ª", "2ª"]}, {"id": "p14", "nome": "Larissa Valois", "empresa": "TCS", "linkedin": "https://www.linkedin.com/in/larissa-valois-97593436", "edicoes": ["2ª"]}, {"id": "q01", "nome": "Laura Silva", "empresa": "Maersk", "linkedin": "https://www.linkedin.com/in/laurasilva-", "edicoes": ["1ª"]}, {"id": "p27", "nome": "Luciane Moreira", "empresa": "MODEC", "linkedin": "https://www.linkedin.com/in/luciane-moreira-3646794", "edicoes": ["2ª"]}, {"id": "p22", "nome": "Luiza Figueiredo", "empresa": "LHH", "linkedin": "https://br.linkedin.com/in/luizarfigueiredo", "edicoes": ["2ª"]}, {"id": "q10", "nome": "Luiza Napoleão", "empresa": "Petronect", "linkedin": "https://www.linkedin.com/in/luiza-napoleao", "edicoes": ["1ª"]}, {"id": "q04", "nome": "Lívia Gonçalves", "empresa": "SBM Offshore", "linkedin": "https://www.linkedin.com/in/livialarissagoncalves", "edicoes": ["1ª"]}, {"id": "q06", "nome": "Mahel Pereira", "empresa": "", "linkedin": "https://www.linkedin.com/in/mahel-pereira", "edicoes": ["1ª"]}, {"id": "p29", "nome": "Marcia Rezende", "empresa": "BW Energy", "linkedin": "https://www.linkedin.com/in/m%C3%A1rcia-rezende-0621371a", "edicoes": ["2ª"]}, {"id": "p25", "nome": "Maria Cecilia Mesquita", "empresa": "GasHub", "linkedin": "https://www.linkedin.com/in/mariaceciliamesquita", "edicoes": ["2ª"]}, {"id": "p04", "nome": "Maria Fernanda Alves", "empresa": "Wilson Sons", "linkedin": "https://www.linkedin.com/in/maria-fernanda-alves-43a619232", "edicoes": ["1ª", "2ª"]}, {"id": "p06", "nome": "Michele Rolim", "empresa": "Navvik Services", "linkedin": "https://www.linkedin.com/in/michele-rolim", "edicoes": ["1ª", "2ª"]}, {"id": "p20", "nome": "Michelli Montechiaro", "empresa": "TechnipFMC", "linkedin": "https://www.linkedin.com/in/michelli-montechiari-64aa791", "edicoes": ["2ª"]}, {"id": "p32", "nome": "Natalia Mello", "empresa": "Leal Cotrim", "linkedin": "https://www.linkedin.com/in/nat%C3%A1lia-ara%C3%BAjo-8a4362144", "edicoes": ["2ª"]}, {"id": "p11", "nome": "Patricia Ludgero", "empresa": "Wood", "linkedin": "https://www.linkedin.com/in/patricialudgero-qsms", "edicoes": ["2ª"]}, {"id": "q03", "nome": "Priscila Pestana", "empresa": "Baker Hughes", "linkedin": "https://www.linkedin.com/in/priscila-miranda-msc/en", "edicoes": ["1ª"]}, {"id": "q09", "nome": "Renata Espíndola", "empresa": "", "linkedin": "https://www.linkedin.com/in/renata-esp%C3%ADndola-7a048712", "edicoes": ["1ª"]}, {"id": "q05", "nome": "Roberta Gallo", "empresa": "Subsea7", "linkedin": "https://www.linkedin.com/in/roberta-gallo-koehler-15478021", "edicoes": ["1ª"]}, {"id": "p10", "nome": "Sabrine Vieira", "empresa": "MODEC", "linkedin": "https://www.linkedin.com/in/sabrine-vieira-de-moura-8b0670b0", "edicoes": ["2ª"]}, {"id": "p17", "nome": "Stela Ferrari", "empresa": "RINA", "linkedin": "https://www.linkedin.com/in/stela-ferrari-fumian", "edicoes": ["2ª"]}, {"id": "p16", "nome": "Stella Mouzinho", "empresa": "TPAR", "linkedin": "https://www.linkedin.com/in/stella-mouzinho-a74a8420", "edicoes": ["2ª"]}, {"id": "p02", "nome": "Tatiana Santos", "empresa": "TBG", "linkedin": "https://www.linkedin.com/in/tatiana-santos-perrone", "edicoes": ["1ª", "2ª"]}, {"id": "p12", "nome": "Viviane Selleiro", "empresa": "SBM Offshore", "linkedin": "https://www.linkedin.com/in/vivianeselleiro", "edicoes": ["2ª"]}], "galeria": [{"id": "gmvy5rnup0", "foto": "192fcf12d8bb1079a2cc65675894343f", "legenda": "", "edicao": "1ª"}, {"id": "gmvy66eif0", "foto": "f98cb255b674d923f21a9ba01475940c", "legenda": "", "edicao": "2ª"}, {"id": "gmvy66f3s1", "foto": "f2561123882a7dd611a5c0e4d06c5a8f", "legenda": "", "edicao": "2ª"}, {"id": "gmvy66fn92", "foto": "e8c9e0c23dbaeb7b24ec264f7e51b952", "legenda": "", "edicao": "2ª"}, {"id": "gmvy66g833", "foto": "1864ae8a13af8e2f8062422d0902df5f", "legenda": "", "edicao": "2ª"}, {"id": "gmvy66gxw4", "foto": "771f66b6b6896cfc0bbcc1324d8348f9", "legenda": "", "edicao": "2ª"}, {"id": "gmvy66hin5", "foto": "fab4b6dd840bca0822614d8d0f61c7a8", "legenda": "", "edicao": "2ª"}, {"id": "gmvy66i7b6", "foto": "b9a7d81f2d677572cf727dbdfca600ef", "legenda": "", "edicao": "2ª"}, {"id": "gmvy66iwx7", "foto": "c6b0af02e2f90b00e4c33840f66b27cd", "legenda": "", "edicao": "2ª"}, {"id": "gmvy66jp98", "foto": "49c531e9642c3a234baa875c59641d1e", "legenda": "", "edicao": "2ª"}, {"id": "gmvy6bm060", "foto": "fe48770aaed7bd9d754d9dc5f422e813", "legenda": "", "edicao": "1ª"}], "proximo": {"titulo": "3ª edição", "quando": "Data a definir", "descricao": "As vagas são limitadas. Escolha a inscrição que corresponde ao seu caso.", "status": "breve", "formParticipante": "", "formIndicada": ""}}</script>
@@ -173,7 +179,7 @@ a.chip { text-decoration: none; }
   const VIEWS = [["inicio", "Início"], ["encontros", "Próximos encontros"], ["participantes", "Participantes"], ["galeria", "Galeria"]];
   const STATUS = { breve: "Inscrições em breve", abertas: "Inscrições abertas", encerradas: "Inscrições encerradas" };
   let view = "inicio", editP = null, editE = null;
-  function readHash() { const h = (location.hash || "").slice(1); view = VIEWS.some((v) => v[0] === h) ? h : "inicio"; }
+  function readHash() { const h = (location.hash || "").slice(1); view = (VIEWS.some((v) => v[0] === h) || h === "presencas") ? h : "inicio"; }
 
   function partCard(p) {
     if (editing && editP === p.id) return `
@@ -327,9 +333,29 @@ a.chip { text-decoration: none; }
       ${P.listaLink ? `<div class="lista">
         <div class="lista-txt"><strong>Presenças confirmadas</strong>
           <span class="lista-aviso">${esc(P.listaAviso || "Lista parcial: não é a lista final e está sujeita a alterações.")}</span></div>
-        <a class="btn" href="${esc(P.listaLink)}" target="_blank" rel="noopener">Ver lista de presenças →</a>
+        <a class="btn" href="${esc(P.listaLink)}" ${P.listaLink.startsWith("#") ? "" : `target="_blank" rel="noopener"`}>Ver lista de presenças →</a>
       </div>` : ""}
     </div>
+  </section>`;
+  }
+
+  function vPresencas() {
+    const P = S.proximo || {}, L = S.presencas;
+    const back = `<a class="linkbtn" href="#encontros" style="font-size:15px">← Voltar para Próximos encontros</a>`;
+    if (!L) return `<section aria-labelledby="h-pres">${back}<div class="head"><div><p class="eyebrow">${esc(P.titulo || "")}</p><h2 id="h-pres">Presenças confirmadas</h2></div></div>
+      <div class="empty">Carregando a lista… Se ela não aparecer em alguns segundos, recarregue a página.</div></section>`;
+    const V = S.vagas || {};
+    return `
+  <section aria-labelledby="h-pres">
+    ${back}
+    <div class="head"><div><p class="eyebrow">${esc(P.titulo || "")} · ${esc(P.quando || "")}</p><h2 id="h-pres">Presenças confirmadas</h2></div></div>
+    <p class="lista-aviso" style="font-size:16px">${esc(P.listaAviso || "Lista parcial: não é a lista final e está sujeita a alterações.")}</p>
+    <div class="stats">
+      <span class="chip"><b>${L.length}</b> ${L.length === 1 ? "confirmada" : "confirmadas"}</span>
+      ${V.restantes != null && V.restantes !== "" ? `<span class="chip"><b>${esc(V.restantes)}</b> vagas restantes</span>` : ""}
+    </div>
+    ${L.length ? `<ol class="pres">${L.map((p) => `<li><span class="name">${esc(p.nome)}</span>${p.empresa ? `<span class="co">${esc(p.empresa)}</span>` : ""}</li>`).join("")}</ol>`
+      : `<div class="empty">Ainda não há presenças confirmadas para esta edição.</div>`}
   </section>`;
   }
 
@@ -386,7 +412,7 @@ a.chip { text-decoration: none; }
   }
 
   function render() {
-    const body = view === "encontros" ? vEncontros() : view === "participantes" ? vParticipantes() : view === "galeria" ? vGaleria() : vInicio();
+    const body = view === "presencas" ? vPresencas() : view === "encontros" ? vEncontros() : view === "participantes" ? vParticipantes() : view === "galeria" ? vGaleria() : vInicio();
     app.innerHTML = `
 <nav class="topnav" aria-label="Seções"><div class="navin">
   <a class="brand" href="#inicio">Women's Wine</a>
@@ -600,6 +626,17 @@ ${canEdit() ? `<div class="editbar"><button class="btn primary" id="toggleEdit">
     },
     Galeria(rows) {
       S.galeria = filled(rows).filter((r) => String(r[1]).trim()).map(([ed, foto, leg], i) => ({ id: "f" + i, foto: foto.trim(), legenda: leg || "", edicao: edId(ed) }));
+    },
+    Presencas(rows) {
+      if (rows.some((r) => /^#(REF|N\/A|ERROR)/.test(String(r[0])))) return;
+      S.presencas = filled(rows).filter((r) => String(r[0]).trim() && !/cancel|duplic/i.test(String(r[3] || "")))
+        .map(([nome, sobrenome, empresa]) => ({ nome: (String(nome).trim() + " " + String(sobrenome || "").trim()).trim(), empresa: String(empresa || "").trim() }));
+    },
+    Vagas(rows) {
+      const V = {};
+      // a primeira linha da aba vira cabeçalho na leitura; inclui também ela
+      rows.forEach(([k, v]) => { const n = norm(k); if (n.includes("restante")) V.restantes = v; else if (n.includes("total")) V.total = v; });
+      S.vagas = V;
     },
     Fundadoras(rows) {
       const list = filled(rows).filter((r) => String(r[0]).trim()).map(([nome, papel, desc, linkedin, foto]) => ({

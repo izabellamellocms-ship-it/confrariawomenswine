@@ -139,6 +139,12 @@ a.chip { text-decoration: none; }
 .lista-txt { display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1 1 260px; }
 .lista-aviso { font-size: 14px; color: var(--muted); }
 .lista-aviso::before { content: "⚠ "; color: var(--wine); }
+
+.pres { list-style: none; counter-reset: p; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 10px; }
+.pres li { counter-increment: p; display: grid; grid-template-columns: 2.2em 1fr; column-gap: 8px; align-items: baseline; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; min-width: 0; }
+.pres li::before { content: counter(p); grid-row: span 2; font-family: var(--serif); font-size: 22px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.pres .name { font-family: var(--serif); font-size: 21px; line-height: 1.2; overflow-wrap: anywhere; }
+.pres .co { color: var(--muted); font-size: 14px; overflow-wrap: anywhere; }
 </style>
 <div id="app"></div>
 <script type="application/json" id="state">__STATE__</script>
@@ -157,7 +163,7 @@ a.chip { text-decoration: none; }
   const VIEWS = [["inicio", "Início"], ["encontros", "Próximos encontros"], ["participantes", "Participantes"], ["galeria", "Galeria"]];
   const STATUS = { breve: "Inscrições em breve", abertas: "Inscrições abertas", encerradas: "Inscrições encerradas" };
   let view = "inicio", editP = null, editE = null;
-  function readHash() { const h = (location.hash || "").slice(1); view = VIEWS.some((v) => v[0] === h) ? h : "inicio"; }
+  function readHash() { const h = (location.hash || "").slice(1); view = (VIEWS.some((v) => v[0] === h) || h === "presencas") ? h : "inicio"; }
 
   function partCard(p) {
     if (editing && editP === p.id) return `
@@ -311,9 +317,29 @@ a.chip { text-decoration: none; }
       ${P.listaLink ? `<div class="lista">
         <div class="lista-txt"><strong>Presenças confirmadas</strong>
           <span class="lista-aviso">${esc(P.listaAviso || "Lista parcial: não é a lista final e está sujeita a alterações.")}</span></div>
-        <a class="btn" href="${esc(P.listaLink)}" target="_blank" rel="noopener">Ver lista de presenças →</a>
+        <a class="btn" href="${esc(P.listaLink)}" ${P.listaLink.startsWith("#") ? "" : `target="_blank" rel="noopener"`}>Ver lista de presenças →</a>
       </div>` : ""}
     </div>
+  </section>`;
+  }
+
+  function vPresencas() {
+    const P = S.proximo || {}, L = S.presencas;
+    const back = `<a class="linkbtn" href="#encontros" style="font-size:15px">← Voltar para Próximos encontros</a>`;
+    if (!L) return `<section aria-labelledby="h-pres">${back}<div class="head"><div><p class="eyebrow">${esc(P.titulo || "")}</p><h2 id="h-pres">Presenças confirmadas</h2></div></div>
+      <div class="empty">Carregando a lista… Se ela não aparecer em alguns segundos, recarregue a página.</div></section>`;
+    const V = S.vagas || {};
+    return `
+  <section aria-labelledby="h-pres">
+    ${back}
+    <div class="head"><div><p class="eyebrow">${esc(P.titulo || "")} · ${esc(P.quando || "")}</p><h2 id="h-pres">Presenças confirmadas</h2></div></div>
+    <p class="lista-aviso" style="font-size:16px">${esc(P.listaAviso || "Lista parcial: não é a lista final e está sujeita a alterações.")}</p>
+    <div class="stats">
+      <span class="chip"><b>${L.length}</b> ${L.length === 1 ? "confirmada" : "confirmadas"}</span>
+      ${V.restantes != null && V.restantes !== "" ? `<span class="chip"><b>${esc(V.restantes)}</b> vagas restantes</span>` : ""}
+    </div>
+    ${L.length ? `<ol class="pres">${L.map((p) => `<li><span class="name">${esc(p.nome)}</span>${p.empresa ? `<span class="co">${esc(p.empresa)}</span>` : ""}</li>`).join("")}</ol>`
+      : `<div class="empty">Ainda não há presenças confirmadas para esta edição.</div>`}
   </section>`;
   }
 
@@ -370,7 +396,7 @@ a.chip { text-decoration: none; }
   }
 
   function render() {
-    const body = view === "encontros" ? vEncontros() : view === "participantes" ? vParticipantes() : view === "galeria" ? vGaleria() : vInicio();
+    const body = view === "presencas" ? vPresencas() : view === "encontros" ? vEncontros() : view === "participantes" ? vParticipantes() : view === "galeria" ? vGaleria() : vInicio();
     app.innerHTML = `
 <nav class="topnav" aria-label="Seções"><div class="navin">
   <a class="brand" href="#inicio">Women's Wine</a>
