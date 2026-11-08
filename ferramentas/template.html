@@ -328,7 +328,6 @@ a.chip { text-decoration: none; }
     const back = `<a class="linkbtn" href="#encontros" style="font-size:15px">← Voltar para Próximos encontros</a>`;
     if (!L) return `<section aria-labelledby="h-pres">${back}<div class="head"><div><p class="eyebrow">${esc(P.titulo || "")}</p><h2 id="h-pres">Presenças confirmadas</h2></div></div>
       <div class="empty">Carregando a lista… Se ela não aparecer em alguns segundos, recarregue a página.</div></section>`;
-    const V = S.vagas || {};
     return `
   <section aria-labelledby="h-pres">
     ${back}
@@ -336,7 +335,6 @@ a.chip { text-decoration: none; }
     <p class="lista-aviso" style="font-size:16px">${esc(P.listaAviso || "Lista parcial: não é a lista final e está sujeita a alterações.")}</p>
     <div class="stats">
       <span class="chip"><b>${L.length}</b> ${L.length === 1 ? "confirmada" : "confirmadas"}</span>
-      ${V.restantes != null && V.restantes !== "" ? `<span class="chip"><b>${esc(V.restantes)}</b> vagas restantes</span>` : ""}
     </div>
     ${L.length ? `<ol class="pres">${L.map((p) => `<li><span class="name">${esc(p.nome)}</span>${p.empresa ? `<span class="co">${esc(p.empresa)}</span>` : ""}</li>`).join("")}</ol>`
       : `<div class="empty">Ainda não há presenças confirmadas para esta edição.</div>`}
