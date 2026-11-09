@@ -141,8 +141,7 @@ a.chip { text-decoration: none; }
 .lista-aviso::before { content: "⚠ "; color: var(--wine); }
 
 .pres { list-style: none; counter-reset: p; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 10px; }
-.pres li { counter-increment: p; display: grid; grid-template-columns: 2.2em 1fr; column-gap: 8px; align-items: baseline; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; min-width: 0; }
-.pres li::before { content: counter(p); grid-row: span 2; font-family: var(--serif); font-size: 22px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.pres li { display: grid; grid-template-columns: 1fr; align-items: baseline; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; min-width: 0; }
 .pres .name { font-family: var(--serif); font-size: 21px; line-height: 1.2; overflow-wrap: anywhere; }
 .pres .co { color: var(--muted); font-size: 14px; overflow-wrap: anywhere; }
 </style>
@@ -333,10 +332,7 @@ a.chip { text-decoration: none; }
     ${back}
     <div class="head"><div><p class="eyebrow">${esc(P.titulo || "")} · ${esc(P.quando || "")}</p><h2 id="h-pres">Presenças confirmadas</h2></div></div>
     <p class="lista-aviso" style="font-size:16px">${esc(P.listaAviso || "Lista parcial: não é a lista final e está sujeita a alterações.")}</p>
-    <div class="stats">
-      <span class="chip"><b>${L.length}</b> ${L.length === 1 ? "confirmada" : "confirmadas"}</span>
-    </div>
-    ${L.length ? `<ol class="pres">${L.map((p) => `<li><span class="name">${esc(p.nome)}</span>${p.empresa ? `<span class="co">${esc(p.empresa)}</span>` : ""}</li>`).join("")}</ol>`
+    ${L.length ? `<ul class="pres">${L.map((p) => `<li><span class="name">${esc(p.nome)}</span>${p.empresa ? `<span class="co">${esc(p.empresa)}</span>` : ""}</li>`).join("")}</ul>`
       : `<div class="empty">Ainda não há presenças confirmadas para esta edição.</div>`}
   </section>`;
   }
