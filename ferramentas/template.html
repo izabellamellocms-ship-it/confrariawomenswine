@@ -178,7 +178,6 @@ a.chip { text-decoration: none; }
         <span class="name">${esc(p.nome)}</span>
         <span class="co">${esc(p.empresa)}</span>
         <div class="row">
-          ${p.linkedin ? `<a class="li" href="${esc(p.linkedin)}" target="_blank" rel="noopener" aria-label="LinkedIn de ${esc(p.nome)}">${LI} LinkedIn</a>` : `<span class="nolink">LinkedIn a incluir</span>`}
           <span class="tags">${p.edicoes.map((e) => `<span class="tag">${esc(e)}</span>`).join("")}</span>
         </div>
         ${editing ? (pendingDelete === p.id
@@ -264,7 +263,7 @@ a.chip { text-decoration: none; }
           : `<p class="eyebrow">${esc(e.titulo)}</p><h3>${esc(e.quando)}</h3>${e.descricao ? `<p class="muted">${esc(e.descricao)}</p>` : ""}
              ${editing ? `<div><button class="linkbtn" data-edite="${esc(e.id)}">Editar edição</button></div>` : ""}`}
           <div class="stats"><span class="chip"><b>${ps.length}</b> participantes</span><span class="chip"><b>${fotos.length}</b> fotos</span></div>
-          ${ps.length ? `<p class="names">${ps.map((p) => p.linkedin ? `<a href="${esc(p.linkedin)}" target="_blank" rel="noopener">${esc(p.nome)}</a>` : esc(p.nome)).join(" · ")}</p>` : ""}
+          ${ps.length ? `<p class="names">${ps.map((p) => esc(p.nome)).join(" · ")}</p>` : ""}
           ${fotos.length ? `<div class="strip">${fotos.slice(-6).map((g) => `<img src="${blob(g.foto)}" alt="${esc(g.legenda || "Foto da " + e.titulo)}" loading="lazy" data-view="${g.id}">`).join("")}</div>` : ""}
         </div>
       </article>`; }).join("")}
@@ -340,12 +339,11 @@ a.chip { text-decoration: none; }
   function vParticipantes() {
     const eds = S.edicoes, total = S.participantes.length;
     const list = S.participantes.filter((p) => (filter === "todas" || p.edicoes.includes(filter)) && (!q || (p.nome + " " + p.empresa).toLowerCase().includes(q.toLowerCase())));
-    const comLi = S.participantes.filter((p) => p.linkedin).length;
     return `
   <section aria-labelledby="h-part">
     <div class="head">
       <div><p class="eyebrow">Conheça as participantes</p><h2 id="h-part">Participantes do clube</h2>
-      <p class="muted">${total} participantes · ${comLi} com LinkedIn</p></div>
+      <p class="muted">${total} participantes</p></div>
       <div class="tools">
         <input type="search" id="q" placeholder="Buscar nome ou empresa" value="${esc(q)}" aria-label="Buscar participante">
         <div class="seg" role="group" aria-label="Filtrar por edição">

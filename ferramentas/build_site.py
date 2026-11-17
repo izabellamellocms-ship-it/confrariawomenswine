@@ -5,6 +5,7 @@ from PIL import Image, ImageOps
 A,R=sys.argv[1],sys.argv[2]
 h=open(os.path.join(A,'index.html')).read()
 state=json.loads(re.search(r'<script type="application/json" id="state">(.*?)</script>',h,re.S).group(1))
+for _p in state.get('participantes',[]): _p['linkedin']=''  # LinkedIn das participantes não vai para o site
 files={f.split('.')[0]:os.path.join(A,f) for f in os.listdir(A) if f!='index.html'}
 os.makedirs(os.path.join(R,'fotos'),exist_ok=True)
 paths={}; seen={}

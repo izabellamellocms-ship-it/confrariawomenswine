@@ -42,7 +42,7 @@
     },
     Participantes(rows) {
       S.participantes = filled(rows).filter((r) => String(r[0]).trim()).map(([nome, empresa, linkedin, eds], i) => ({
-        id: "s" + i, nome: nome.trim(), empresa: (empresa || "").trim(), linkedin: /linkedin\.com\//.test(linkedin || "") ? linkedin.trim() : "",
+        id: "s" + i, nome: nome.trim(), empresa: (empresa || "").trim(), linkedin: "",
         edicoes: String(eds || "").split(/\s*(?:,|;|\/|\se\s)\s*/).map((x) => x.trim()).filter(Boolean).map(edId) }))
         .sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
     },
