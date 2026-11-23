@@ -98,8 +98,8 @@ footer { text-align: center; color: var(--muted); font-size: 14px; }
     if (!v || /\s/.test(v) || /^n\/?a$/i.test(v) || v.length < 3) return "";
     return "https://www.linkedin.com/in/" + v;
   }
-  Promise.all([tab("Presencas").catch(() => []), tab("LinkedinForm").catch(() => []), tab("Participantes").catch(() => []), tab("Proximo").catch(() => []), tab("IndicadasLista").catch(() => []), tab("ListaFinal").catch(() => [])])
-    .then(([pres, form, part, prox, ind, fin]) => {
+  Promise.all([tab("Presencas").catch(() => []), tab("LinkedinForm").catch(() => []), tab("Participantes").catch(() => []), tab("Proximo").catch(() => []), tab("IndicadasLista").catch(() => []), tab("ListaFinal").catch(() => []), tab("Fundadoras").catch(() => [])])
+    .then(([pres, form, part, prox, ind, fin, fund]) => {
       prox.forEach(([k, v]) => { const n = norm(k);
         if (n.startsWith("edic") && v) document.getElementById("ed").textContent = v;
         else if (n.startsWith("data") && v) document.getElementById("when").textContent = v;
@@ -112,13 +112,14 @@ footer { text-align: center; color: var(--muted); font-size: 14px; }
       const put = (n, s, l, e) => keys(n, s).forEach((k) => { if (l && !links[k]) links[k] = l; if (e && !emp[k]) emp[k] = e; });
       form.forEach(([n, s, l]) => { const u = linkFrom(l) || slugFrom(l); if (u) put(n, s, u); });
       ind.forEach(([n, s, e, l]) => put(n, s, linkFrom(l), String(e || "").trim()));
+      fund.forEach(([n, , , l]) => { const w = String(n || "").trim().split(/\s+/); if (w.length > 1) put(w[0], w.slice(1).join(" "), linkFrom(l)); });
       pres.forEach(([n, s, e]) => put(n, s, "", String(e || "").trim()));
       const fromSite = {}; part.forEach(([n, e, l]) => { if (/linkedin\.com\//i.test(l || "")) fromSite[norm(n)] = linkFrom(l); });
       const look = (map, n, s) => { for (const k of keys(n, s)) if (map[k]) return map[k]; return ""; };
       // Fonte principal: aba "Confirmação 25/11" (ListaFinal: Nome, Sobrenome, Empresa, Status final, Grupo)
       let src = fin.filter(valid);
       let rows;
-      if (src.length) rows = src.filter((r) => ok(r[3])).map(([n, s, e, , g]) => [n, s, e, !/^\s*1\b/.test(String(g || ""))]);
+      if (src.length) rows = src.filter((r) => ok(r[3])).map(([n, s, e, , g]) => [n, s, e, /^\s*[234]\b/.test(String(g || ""))]);
       else rows = pres.filter((r) => valid(r) && ok(r[3])).map(([n, s, e]) => [n, s, e, false])
         .concat(ind.filter((r) => valid(r) && ok(r[4])).map(([n, s, e]) => [n, s, e, true]));
       const seen = new Set(); const list = [];
