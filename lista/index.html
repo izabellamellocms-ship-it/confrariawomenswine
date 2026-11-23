@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Presenças confirmadas · Women's Wine</title>
+<title>Women's Wine · Confraria de Vinho de Mulheres de O&amp;G e Energia</title>
 <meta name="description" content="Lista de presenças confirmadas do próximo encontro da Women's Wine, confraria de mulheres de Óleo & Gás.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,9 +22,10 @@ html, body { margin: 0; background: var(--bg); color: var(--fg); }
 body { font-family: var(--sans); font-size: 17px; line-height: 1.55; }
 .band { background: var(--wine); color: var(--cream); padding-block: 44px 40px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 .band .in, .wrap { max-width: 1040px; margin: 0 auto; }
-.brand { font-family: var(--serif); font-size: 20px; letter-spacing: .14em; text-transform: uppercase; }
-.eyebrow { margin: 34px 0 0; font-size: 13px; letter-spacing: .26em; text-transform: uppercase; font-weight: 600; opacity: .85; }
-h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(44px, 10vw, 88px); line-height: 1; margin: 12px 0 0; text-wrap: balance; }
+.kicker { margin: 0; font-size: 14px; letter-spacing: .22em; text-transform: uppercase; font-weight: 600; opacity: .85; }
+.eyebrow { margin: 30px 0 0; font-size: 13px; letter-spacing: .26em; text-transform: uppercase; font-weight: 600; opacity: .85; }
+h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(52px, 13vw, 112px); line-height: .95; margin: 14px 0 0; text-transform: uppercase; letter-spacing: .01em; text-wrap: balance; }
+h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(28px, 6vw, 44px); line-height: 1.05; margin: 10px 0 0; }
 .when { font-family: var(--serif); font-style: italic; font-size: clamp(20px, 4vw, 26px); margin: 14px 0 0; opacity: .92; }
 .aviso { margin: 22px 0 0; font-size: 15px; opacity: .85; }
 .aviso::before { content: "⚠ "; }
@@ -48,9 +49,10 @@ footer { text-align: center; color: var(--muted); font-size: 14px; }
 </head>
 <body>
 <header class="band"><div class="in">
-  <div class="brand">Women's Wine</div>
+  <p class="kicker">Confraria de Vinho de Mulheres de O&amp;G e Energia</p>
+  <h1>Women's Wine</h1>
   <p class="eyebrow" id="ed">Próximo encontro</p>
-  <h1>Presenças confirmadas</h1>
+  <h2>Presenças confirmadas</h2>
   <p class="when" id="when"></p>
   <p class="aviso" id="aviso">Lista parcial: não é a lista final e está sujeita a alterações.</p>
 </div></header>
@@ -61,7 +63,7 @@ footer { text-align: center; color: var(--muted); font-size: 14px; }
     <p>Conheça a confraria: história, fundadoras, galeria e próximos encontros.</p>
     <a class="btn" href="https://confrariawomenswine.vercel.app/" target="_blank" rel="noopener">Visitar o site da Women's Wine →</a>
   </section>
-  <footer>Women's Wine · Confraria de Mulheres de Óleo &amp; Gás · Rio de Janeiro</footer>
+  <footer>Women's Wine · Confraria de Vinho de Mulheres de O&amp;G e Energia · Rio de Janeiro</footer>
 </main>
 <script>
 (function () {
@@ -95,21 +97,30 @@ footer { text-align: center; color: var(--muted); font-size: 14px; }
     if (!v || /\s/.test(v) || /^n\/?a$/i.test(v) || v.length < 3) return "";
     return "https://www.linkedin.com/in/" + v;
   }
-  Promise.all([tab("Presencas"), tab("LinkedinForm").catch(() => []), tab("Participantes").catch(() => []), tab("Proximo").catch(() => [])])
-    .then(([pres, form, part, prox]) => {
+  Promise.all([tab("Presencas"), tab("LinkedinForm").catch(() => []), tab("Participantes").catch(() => []), tab("Proximo").catch(() => []), tab("IndicadasLista").catch(() => [])])
+    .then(([pres, form, part, prox, ind]) => {
       prox.forEach(([k, v]) => { const n = norm(k);
-        if (n.startsWith("edic") && v) document.getElementById("ed").textContent = v + " · Próximo encontro";
+        if (n.startsWith("edic") && v) document.getElementById("ed").textContent = v;
         else if (n.startsWith("data") && v) document.getElementById("when").textContent = v;
         else if (n.startsWith("aviso") && v) document.getElementById("aviso").textContent = v; });
       const fromForm = {}; form.forEach(([n, s, l]) => { fromForm[norm(n + " " + s)] = l; });
       const fromSite = {}; part.forEach(([n, e, l]) => { if (/linkedin\.com\//i.test(l || "")) fromSite[norm(n)] = l; });
-      const list = pres.filter((r) => String(r[0]).trim() && !/^#/.test(r[0]) && !/cancel|duplic/i.test(String(r[3] || "")))
+      const ok = (s) => /^confirm/i.test(String(s || "").trim());
+      const list = pres.filter((r) => String(r[0]).trim() && !/^#/.test(r[0]) && ok(r[3]))
         .map(([n, s, e]) => {
           const nome = title(String(n).trim() + " " + String(s || "").trim());
           const raw = fromForm[norm(n + " " + s)] || "";
           const li = linkFrom(raw) || linkFrom(fromSite[norm(nome)]) || slugFrom(raw);
           return { nome, empresa: String(e || "").trim().replace(/^n\/?a$/i, ""), li };
         });
+      // Indicadas confirmadas (aba IndicadasLista: Nome, Sobrenome, Empresa, LinkedIn, Status)
+      const seen = new Set(list.map((p) => norm(p.nome)));
+      ind.filter((r) => String(r[0]).trim() && !/^#/.test(r[0]) && ok(r[4])).forEach(([n, s, e, l]) => {
+        const nome = title(String(n).trim() + " " + String(s || "").trim());
+        if (seen.has(norm(nome))) return; seen.add(norm(nome));
+        list.push({ nome, empresa: String(e || "").trim().replace(/^n\/?a$/i, ""), li: linkFrom(l) });
+      });
+      list.sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
       const ul = document.getElementById("lista");
       ul.innerHTML = list.length ? list.map((p) => `<li class="card"><div class="who"><span class="name">${esc(p.nome)}</span>${p.empresa ? `<span class="co">${esc(p.empresa)}</span>` : ""}</div>${p.li ? `<a class="li" href="${esc(p.li)}" target="_blank" rel="noopener" aria-label="Conectar com ${esc(p.nome)} no LinkedIn">${LI} Conectar</a>` : ""}</li>`).join("")
         : `<li class="empty">Ainda não há presenças confirmadas para esta edição.</li>`;

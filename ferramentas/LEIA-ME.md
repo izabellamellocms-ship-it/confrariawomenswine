@@ -32,3 +32,5 @@ Desde 23/11/2026 a lista não fica mais no site principal. Ela está em
 Lê as abas Presencas (status), LinkedinForm (LinkedIn do formulário) e
 Participantes (LinkedIn de reserva) da planilha do site. Só participantes
 com status Confirmado aparecem; canceladas e duplicadas ficam de fora.
+Desde 23/11 a lista também inclui as indicadas com status "Confirmado",
+lidas da aba IndicadasLista (sem WhatsApp).
