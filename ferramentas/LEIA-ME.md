@@ -25,3 +25,10 @@ Drive (compartilhada por link), com o link colado na aba Galeria.
 Todo formulário de inscrição (participantes, indicadas ou qualquer outro)
 tem que ter o campo **WhatsApp (com DDD)** como pergunta **obrigatória**.
 O WhatsApp fica só na planilha de respostas, nunca na planilha do site.
+
+## Lista de presenças (página avulsa)
+Desde 23/11/2026 a lista não fica mais no site principal. Ela está em
+`lista/index.html` → https://confrariawomenswine.vercel.app/lista/
+Lê as abas Presencas (status), LinkedinForm (LinkedIn do formulário) e
+Participantes (LinkedIn de reserva) da planilha do site. Só participantes
+com status Confirmado aparecem; canceladas e duplicadas ficam de fora.

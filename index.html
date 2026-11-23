@@ -178,7 +178,7 @@ a.chip { text-decoration: none; }
   const VIEWS = [["inicio", "Início"], ["encontros", "Próximos encontros"], ["participantes", "Participantes"], ["galeria", "Galeria"]];
   const STATUS = { breve: "Inscrições em breve", abertas: "Inscrições abertas", encerradas: "Inscrições encerradas" };
   let view = "inicio", editP = null, editE = null;
-  function readHash() { const h = (location.hash || "").slice(1); view = (VIEWS.some((v) => v[0] === h) || h === "presencas") ? h : "inicio"; }
+  function readHash() { const h = (location.hash || "").slice(1); view = VIEWS.some((v) => v[0] === h) ? h : "inicio"; }
 
   function partCard(p) {
     if (editing && editP === p.id) return `
@@ -328,11 +328,6 @@ a.chip { text-decoration: none; }
       <p class="event-when">${esc(P.quando)}</p>
       ${P.descricao ? `<p class="muted" style="white-space:pre-line;max-width:36em">${esc(P.descricao)}</p>` : ""}
       ${regButtons(P)}
-      ${P.listaLink ? `<div class="lista">
-        <div class="lista-txt"><strong>Presenças confirmadas</strong>
-          <span class="lista-aviso">${esc(P.listaAviso || "Lista parcial: não é a lista final e está sujeita a alterações.")}</span></div>
-        <a class="btn" href="${esc(P.listaLink)}" ${P.listaLink.startsWith("#") ? "" : `target="_blank" rel="noopener"`}>Ver lista de presenças →</a>
-      </div>` : ""}
     </div>
   </section>`;
   }
@@ -404,7 +399,7 @@ a.chip { text-decoration: none; }
   }
 
   function render() {
-    const body = view === "presencas" ? vPresencas() : view === "encontros" ? vEncontros() : view === "participantes" ? vParticipantes() : view === "galeria" ? vGaleria() : vInicio();
+    const body = view === "encontros" ? vEncontros() : view === "participantes" ? vParticipantes() : view === "galeria" ? vGaleria() : vInicio();
     app.innerHTML = `
 <nav class="topnav" aria-label="Seções"><div class="navin">
   <a class="brand" href="#inicio">Women's Wine</a>

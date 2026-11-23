@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Presenças confirmadas · Women's Wine</title>
+<meta name="description" content="Lista de presenças confirmadas do próximo encontro da Women's Wine, confraria de mulheres de Óleo & Gás.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;1,6..96,400&family=Figtree:wght@400;500;600&display=swap">
+<style>
+/* Página avulsa da lista de presenças: mesma identidade do site (creme + bordô). */
+:root {
+  --bg: #f3e9df; --surface: #fbf6f0; --line: #dfcdbf;
+  --fg: #2a0306; --muted: #5e3a3b; --wine: #3d0610; --cream: #f8efe6;
+  --serif: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --sans: "Figtree", "Helvetica Neue", Arial, sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--fg); }
+body { font-family: var(--sans); font-size: 17px; line-height: 1.55; }
+.band { background: var(--wine); color: var(--cream); padding-block: 44px 40px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.band .in, .wrap { max-width: 1040px; margin: 0 auto; }
+.brand { font-family: var(--serif); font-size: 20px; letter-spacing: .14em; text-transform: uppercase; }
+.eyebrow { margin: 34px 0 0; font-size: 13px; letter-spacing: .26em; text-transform: uppercase; font-weight: 600; opacity: .85; }
+h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(44px, 10vw, 88px); line-height: 1; margin: 12px 0 0; text-wrap: balance; }
+.when { font-family: var(--serif); font-style: italic; font-size: clamp(20px, 4vw, 26px); margin: 14px 0 0; opacity: .92; }
+.aviso { margin: 22px 0 0; font-size: 15px; opacity: .85; }
+.aviso::before { content: "⚠ "; }
+.wrap { padding-block: 36px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 28px; }
+.intro { margin: 0; color: var(--muted); max-width: 40em; }
+.grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 12px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; display: flex; align-items: center; justify-content: space-between; gap: 14px; min-width: 0; }
+.who { display: flex; flex-direction: column; min-width: 0; }
+.name { font-family: var(--serif); font-size: 22px; line-height: 1.15; overflow-wrap: anywhere; }
+.co { color: var(--muted); font-size: 14px; overflow-wrap: anywhere; }
+.li { flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--line); color: var(--wine); font-weight: 600; font-size: 14px; text-decoration: none; background: var(--bg); }
+.li:hover { border-color: var(--wine); }
+.li svg { width: 16px; height: 16px; }
+.cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 24px; background: var(--wine); color: var(--cream); border-radius: 16px; padding: 24px 26px; }
+.cta p { margin: 0; font-family: var(--serif); font-size: 24px; line-height: 1.25; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 12px 22px; border-radius: 999px; background: var(--cream); color: var(--wine); font-weight: 600; text-decoration: none; }
+.btn:focus-visible, .li:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
+.empty { border: 1px dashed var(--line); border-radius: 12px; padding: 28px 20px; text-align: center; color: var(--muted); }
+footer { text-align: center; color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+<header class="band"><div class="in">
+  <div class="brand">Women's Wine</div>
+  <p class="eyebrow" id="ed">Próximo encontro</p>
+  <h1>Presenças confirmadas</h1>
+  <p class="when" id="when"></p>
+  <p class="aviso" id="aviso">Lista parcial: não é a lista final e está sujeita a alterações.</p>
+</div></header>
+<main class="wrap">
+  <p class="intro">Conheça quem já confirmou presença e aproveite para se conectar no LinkedIn antes do encontro.</p>
+  <ul class="grid" id="lista"><li class="empty">Carregando a lista… Se ela não aparecer em alguns segundos, recarregue a página.</li></ul>
+  <section class="cta">
+    <p>Conheça a confraria: história, fundadoras, galeria e próximos encontros.</p>
+    <a class="btn" href="https://confrariawomenswine.vercel.app/" target="_blank" rel="noopener">Visitar o site da Women's Wine →</a>
+  </section>
+  <footer>Women's Wine · Confraria de Mulheres de Óleo &amp; Gás · Rio de Janeiro</footer>
+</main>
+<script>
+(function () {
+  const SHEET = "1C3FwsGX0mhYNHAz0NVOkH7ug0XbU73CnKbq98Ou_COE";
+  const LI = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4v11H3zM9.5 9.75h3.8v1.5h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1v5.46h-4v-4.84c0-1.16-.02-2.64-1.61-2.64-1.6 0-1.85 1.25-1.85 2.55v4.93h-4z"/></svg>';
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const norm = (s) => String(s ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
+  const title = (s) => String(s ?? "").trim().toLowerCase().replace(/(^|[\s'-])(\p{L})/gu, (m, a, b) => a + b.toUpperCase()).replace(/\b(De|Da|Do|Dos|Das|E)\b/g, (w) => w.toLowerCase());
+  const cell = (c) => { if (!c) return ""; if (typeof c.v === "string") return c.v; if (c.f != null) return String(c.f); return c.v == null ? "" : String(c.v); };
+  function tab(name) {
+    return new Promise((resolve, reject) => {
+      const cb = "__wl" + Math.random().toString(36).slice(2);
+      const s = document.createElement("script");
+      const done = () => { clearTimeout(t); try { delete window[cb]; } catch (_) { window[cb] = undefined; } s.remove(); };
+      const t = setTimeout(() => { done(); reject(new Error("timeout")); }, 12000);
+      window[cb] = (r) => { done(); if (!r || r.status === "error" || !r.table) reject(new Error("erro")); else resolve(r.table.rows.map((row) => (row.c || []).map(cell))); };
+      s.onerror = () => { done(); reject(new Error("rede")); };
+      s.src = "https://docs.google.com/spreadsheets/d/" + SHEET + "/gviz/tq?tqx=out:json;responseHandler:" + cb + "&headers=1&sheet=" + encodeURIComponent(name) + "&_=" + Date.now();
+      document.head.appendChild(s);
+    });
+  }
+  // Transforma o que a participante escreveu no formulário num link de perfil.
+  function linkFrom(v) {
+    v = String(v || "").trim();
+    const m = v.match(/linkedin\.com\/in\/([^/?#\s]+)/i);
+    if (m) return "https://www.linkedin.com/in/" + m[1].replace(/\/+$/, "");
+    return "";
+  }
+  function slugFrom(v) {
+    v = String(v || "").trim().replace(/^\/+|\/+$/g, "");
+    if (!v || /\s/.test(v) || /^n\/?a$/i.test(v) || v.length < 3) return "";
+    return "https://www.linkedin.com/in/" + v;
+  }
+  Promise.all([tab("Presencas"), tab("LinkedinForm").catch(() => []), tab("Participantes").catch(() => []), tab("Proximo").catch(() => [])])
+    .then(([pres, form, part, prox]) => {
+      prox.forEach(([k, v]) => { const n = norm(k);
+        if (n.startsWith("edic") && v) document.getElementById("ed").textContent = v + " · Próximo encontro";
+        else if (n.startsWith("data") && v) document.getElementById("when").textContent = v;
+        else if (n.startsWith("aviso") && v) document.getElementById("aviso").textContent = v; });
+      const fromForm = {}; form.forEach(([n, s, l]) => { fromForm[norm(n + " " + s)] = l; });
+      const fromSite = {}; part.forEach(([n, e, l]) => { if (/linkedin\.com\//i.test(l || "")) fromSite[norm(n)] = l; });
+      const list = pres.filter((r) => String(r[0]).trim() && !/^#/.test(r[0]) && !/cancel|duplic/i.test(String(r[3] || "")))
+        .map(([n, s, e]) => {
+          const nome = title(String(n).trim() + " " + String(s || "").trim());
+          const raw = fromForm[norm(n + " " + s)] || "";
+          const li = linkFrom(raw) || linkFrom(fromSite[norm(nome)]) || slugFrom(raw);
+          return { nome, empresa: String(e || "").trim().replace(/^n\/?a$/i, ""), li };
+        });
+      const ul = document.getElementById("lista");
+      ul.innerHTML = list.length ? list.map((p) => `<li class="card"><div class="who"><span class="name">${esc(p.nome)}</span>${p.empresa ? `<span class="co">${esc(p.empresa)}</span>` : ""}</div>${p.li ? `<a class="li" href="${esc(p.li)}" target="_blank" rel="noopener" aria-label="Conectar com ${esc(p.nome)} no LinkedIn">${LI} Conectar</a>` : ""}</li>`).join("")
+        : `<li class="empty">Ainda não há presenças confirmadas para esta edição.</li>`;
+    })
+    .catch(() => { document.getElementById("lista").innerHTML = `<li class="empty">Não foi possível carregar a lista agora. Recarregue a página em instantes.</li>`; });
+})();
+</script>
+</body>
+</html>
