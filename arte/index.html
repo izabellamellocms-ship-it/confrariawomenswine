@@ -33,6 +33,10 @@ h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 9vw, 40
 .status { min-height: 1.5em; margin: 0; text-align: center; color: var(--muted); font-size: 15px; }
 .stage { position: relative; width: min(100%, 360px); margin: 0 auto; aspect-ratio: 9 / 16; border-radius: 14px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,.45); background: #2a0306; max-height: 64vh; width: auto; height: min(64vh, 640px); max-width: 100%; }
 canvas { touch-action: pan-y pinch-zoom; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+.stage.editing { outline: 3px solid var(--cream); outline-offset: 4px; }
+.stage.editing canvas { touch-action: none; cursor: grab; }
+.btn.edit { min-height: 48px; font-size: 16px; }
+.btn.edit[aria-pressed="true"] { background: var(--cream); color: var(--wine); }
 canvas { display: block; width: 100%; height: 100%; }
 .zoom { display: flex; align-items: center; gap: 12px; }
 .zoom label { font-size: 14px; color: var(--muted); }
@@ -63,11 +67,12 @@ footer a { color: var(--ink); }
 
   <div class="stage" id="stage"><canvas id="canvas" width="1080" height="1920" aria-label="Prévia da arte de stories"></canvas></div>
 
+  <button class="btn ghost edit" id="editBtn" type="button" aria-pressed="false" hidden>✋ Ajustar a foto</button>
   <div class="zoom" id="zoomRow" hidden>
     <label for="zoom">Tamanho</label>
     <input type="range" id="zoom" min="0.5" max="2.2" step="0.01" value="1">
   </div>
-  <p class="hint" id="dragHint" hidden>Para ajustar, arraste a foto dentro do arco. Fora dele a página rola normalmente.</p>
+  <p class="hint" id="dragHint" hidden>Toque em “Ajustar a foto”, arraste com o dedo para posicionar e use o Tamanho para aproximar. Depois toque em “Pronto”.</p>
 
   <div class="actions" id="actions" hidden>
     <button class="btn primary" id="shareBtn" type="button" hidden>
@@ -212,19 +217,26 @@ fileInput.addEventListener("change", async () => {
     try { person = await cutout(src); cut = true; status.textContent = "Pronto! Ajuste se quiser e salve."; }
     catch (e) { console.warn(e); person = src; cut = false; status.textContent = "Não deu para tirar o fundo, então usamos a foto inteira. Ajuste e salve."; }
     fitPerson(); zoom.value = 1; draw();
-    $("zoomRow").hidden = false; $("dragHint").hidden = false; $("actions").hidden = false;
-    $("pickLabel").textContent = "Trocar foto";
+    $("zoomRow").hidden = false; $("dragHint").hidden = false; $("editBtn").hidden = false; $("actions").hidden = false;
+    $("pickLabel").textContent = "Trocar foto"; setEditing(false);
   } catch (e) { status.textContent = "Não consegui abrir essa foto. Tente outra."; }
   finally { pick.removeAttribute("aria-disabled"); pick.style.opacity = ""; fileInput.value = ""; }
 });
 
 zoom.addEventListener("input", () => { sx = parseFloat(zoom.value); draw(); });
 
-// arrastar: só dentro do arco e com foto carregada; fora disso a página rola normalmente
+// ajuste: o modo "Ajustar a foto" trava a rolagem só enquanto estiver ligado
+const stageEl = $("stage"), editBtn = $("editBtn");
+function setEditing(on) {
+  stageEl.classList.toggle("editing", on);
+  editBtn.setAttribute("aria-pressed", on ? "true" : "false");
+  editBtn.textContent = on ? "✓ Pronto" : "✋ Ajustar a foto";
+  if (on) stageEl.scrollIntoView({ block: "center", behavior: "smooth" });
+}
+editBtn.addEventListener("click", () => setEditing(!stageEl.classList.contains("editing")));
 let drag = null;
-function toArt(cx, cy) { const r = canvas.getBoundingClientRect(); return { x: (cx - r.left) * W / r.width, y: (cy - r.top) * H / r.height, k: W / r.width }; }
-function inArch(p) { const a = ARCH, m = 30; return p.x > a.x - m && p.x < a.x + a.w + m && p.y > a.y - m && p.y < a.y + a.h + m; }
-function start(cx, cy) { const p = toArt(cx, cy); if (!person || !inArch(p)) return false; drag = { x: cx, y: cy, ox: offX, oy: offY, k: p.k }; return true; }
+const editing = () => person && stageEl.classList.contains("editing");
+function start(cx, cy) { if (!editing()) return false; const r = canvas.getBoundingClientRect(); drag = { x: cx, y: cy, ox: offX, oy: offY, k: W / r.width }; return true; }
 function move(cx, cy) { if (!drag) return; offX = drag.ox + (cx - drag.x) * drag.k; offY = drag.oy + (cy - drag.y) * drag.k; draw(); }
 const end = () => { drag = null; };
 canvas.addEventListener("touchstart", (e) => { if (e.touches.length === 1 && start(e.touches[0].clientX, e.touches[0].clientY)) e.preventDefault(); }, { passive: false });
@@ -233,7 +245,7 @@ canvas.addEventListener("touchend", end); canvas.addEventListener("touchcancel",
 canvas.addEventListener("mousedown", (e) => { if (start(e.clientX, e.clientY)) e.preventDefault(); });
 window.addEventListener("mousemove", (e) => move(e.clientX, e.clientY));
 window.addEventListener("mouseup", end);
-canvas.addEventListener("click", (e) => { if (!person && inArch(toArt(e.clientX, e.clientY))) fileInput.click(); });
+canvas.addEventListener("click", () => { if (!person) fileInput.click(); });
 
 const FILE = "womens-wine-3-encontro-stories.jpg";
 const toBlob = () => new Promise((r) => canvas.toBlob(r, "image/jpeg", 0.93));
