@@ -34,3 +34,8 @@ Participantes (LinkedIn de reserva) da planilha do site. Só participantes
 com status Confirmado aparecem; canceladas e duplicadas ficam de fora.
 Desde 23/11 a lista também inclui as indicadas com status "Confirmado",
 lidas da aba IndicadasLista (sem WhatsApp).
+
+## Lista de presença (/lista)
+- Fonte principal: aba "Confirmação 25/11" da planilha da 3ª edição, espelhada (sem WhatsApp) na aba ListaFinal da planilha do site.
+- Aparece só quem está com "Status final" começando por CONFIRMADA. LinkedIn vem de LinkedinForm / IndicadasLista.
+- Se ListaFinal falhar, a página volta a usar Presencas + IndicadasLista.

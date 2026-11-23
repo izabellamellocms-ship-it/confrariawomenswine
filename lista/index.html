@@ -97,28 +97,36 @@ footer { text-align: center; color: var(--muted); font-size: 14px; }
     if (!v || /\s/.test(v) || /^n\/?a$/i.test(v) || v.length < 3) return "";
     return "https://www.linkedin.com/in/" + v;
   }
-  Promise.all([tab("Presencas"), tab("LinkedinForm").catch(() => []), tab("Participantes").catch(() => []), tab("Proximo").catch(() => []), tab("IndicadasLista").catch(() => [])])
-    .then(([pres, form, part, prox, ind]) => {
+  Promise.all([tab("Presencas").catch(() => []), tab("LinkedinForm").catch(() => []), tab("Participantes").catch(() => []), tab("Proximo").catch(() => []), tab("IndicadasLista").catch(() => []), tab("ListaFinal").catch(() => [])])
+    .then(([pres, form, part, prox, ind, fin]) => {
       prox.forEach(([k, v]) => { const n = norm(k);
         if (n.startsWith("edic") && v) document.getElementById("ed").textContent = v;
         else if (n.startsWith("data") && v) document.getElementById("when").textContent = v;
         else if (n.startsWith("aviso") && v) document.getElementById("aviso").textContent = v; });
-      const fromForm = {}; form.forEach(([n, s, l]) => { fromForm[norm(n + " " + s)] = l; });
-      const fromSite = {}; part.forEach(([n, e, l]) => { if (/linkedin\.com\//i.test(l || "")) fromSite[norm(n)] = l; });
       const ok = (s) => /^confirm/i.test(String(s || "").trim());
-      const list = pres.filter((r) => String(r[0]).trim() && !/^#/.test(r[0]) && ok(r[3]))
-        .map(([n, s, e]) => {
-          const nome = title(String(n).trim() + " " + String(s || "").trim());
-          const raw = fromForm[norm(n + " " + s)] || "";
-          const li = linkFrom(raw) || linkFrom(fromSite[norm(nome)]) || slugFrom(raw);
-          return { nome, empresa: String(e || "").trim().replace(/^n\/?a$/i, ""), li };
-        });
-      // Indicadas confirmadas (aba IndicadasLista: Nome, Sobrenome, Empresa, LinkedIn, Status)
-      const seen = new Set(list.map((p) => norm(p.nome)));
-      ind.filter((r) => String(r[0]).trim() && !/^#/.test(r[0]) && ok(r[4])).forEach(([n, s, e, l]) => {
+      const valid = (r) => String(r[0] || "").trim() && !/^#/.test(r[0]);
+      // Chaves de busca: nome completo e "primeiro + último" (ex.: Larissa Dias Neves = Larissa Dias)
+      const keys = (n, s) => { const f = norm(n + " " + s); const w = f.split(" "); return [f, w[0] + " " + w[w.length - 1], norm(n) + " " + norm(s).split(" ")[0]]; };
+      const links = {}, emp = {};
+      const put = (n, s, l, e) => keys(n, s).forEach((k) => { if (l && !links[k]) links[k] = l; if (e && !emp[k]) emp[k] = e; });
+      form.forEach(([n, s, l]) => { const u = linkFrom(l) || slugFrom(l); if (u) put(n, s, u); });
+      ind.forEach(([n, s, e, l]) => put(n, s, linkFrom(l), String(e || "").trim()));
+      pres.forEach(([n, s, e]) => put(n, s, "", String(e || "").trim()));
+      const fromSite = {}; part.forEach(([n, e, l]) => { if (/linkedin\.com\//i.test(l || "")) fromSite[norm(n)] = linkFrom(l); });
+      const look = (map, n, s) => { for (const k of keys(n, s)) if (map[k]) return map[k]; return ""; };
+      // Fonte principal: aba "Confirmação 25/11" (ListaFinal: Nome, Sobrenome, Empresa, Status final, Grupo)
+      let src = fin.filter(valid);
+      let rows;
+      if (src.length) rows = src.filter((r) => ok(r[3])).map(([n, s, e]) => [n, s, e]);
+      else rows = pres.filter((r) => valid(r) && ok(r[3])).map(([n, s, e]) => [n, s, e])
+        .concat(ind.filter((r) => valid(r) && ok(r[4])).map(([n, s, e]) => [n, s, e]));
+      const seen = new Set(); const list = [];
+      rows.forEach(([n, s, e]) => {
         const nome = title(String(n).trim() + " " + String(s || "").trim());
         if (seen.has(norm(nome))) return; seen.add(norm(nome));
-        list.push({ nome, empresa: String(e || "").trim().replace(/^n\/?a$/i, ""), li: linkFrom(l) });
+        const empresa = (String(e || "").trim().replace(/^(n\/?a|—|-)$/i, "") || look(emp, n, s).replace(/^n\/?a$/i, "")).trim();
+        const li = look(links, n, s) || fromSite[norm(nome)] || "";
+        list.push({ nome, empresa, li });
       });
       list.sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
       const ul = document.getElementById("lista");
