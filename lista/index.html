@@ -36,6 +36,7 @@ h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(28px, 6vw, 44
 .who { display: flex; flex-direction: column; min-width: 0; }
 .name { font-family: var(--serif); font-size: 22px; line-height: 1.15; overflow-wrap: anywhere; }
 .co { color: var(--muted); font-size: 14px; overflow-wrap: anywhere; }
+.nova { display: inline-block; vertical-align: 3px; margin-left: 8px; padding: 2px 8px; border-radius: 999px; background: var(--wine); color: var(--cream); font-family: var(--sans, inherit); font-size: 11px; font-weight: 700; letter-spacing: .08em; white-space: nowrap; }
 .li { flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--line); color: var(--wine); font-weight: 600; font-size: 14px; text-decoration: none; background: var(--bg); }
 .li:hover { border-color: var(--wine); }
 .li svg { width: 16px; height: 16px; }
@@ -117,20 +118,20 @@ footer { text-align: center; color: var(--muted); font-size: 14px; }
       // Fonte principal: aba "Confirmação 25/11" (ListaFinal: Nome, Sobrenome, Empresa, Status final, Grupo)
       let src = fin.filter(valid);
       let rows;
-      if (src.length) rows = src.filter((r) => ok(r[3])).map(([n, s, e]) => [n, s, e]);
-      else rows = pres.filter((r) => valid(r) && ok(r[3])).map(([n, s, e]) => [n, s, e])
-        .concat(ind.filter((r) => valid(r) && ok(r[4])).map(([n, s, e]) => [n, s, e]));
+      if (src.length) rows = src.filter((r) => ok(r[3])).map(([n, s, e, , g]) => [n, s, e, !/^\s*1\b/.test(String(g || ""))]);
+      else rows = pres.filter((r) => valid(r) && ok(r[3])).map(([n, s, e]) => [n, s, e, false])
+        .concat(ind.filter((r) => valid(r) && ok(r[4])).map(([n, s, e]) => [n, s, e, true]));
       const seen = new Set(); const list = [];
-      rows.forEach(([n, s, e]) => {
+      rows.forEach(([n, s, e, nova]) => {
         const nome = title(String(n).trim() + " " + String(s || "").trim());
         if (seen.has(norm(nome))) return; seen.add(norm(nome));
         const empresa = (String(e || "").trim().replace(/^(n\/?a|—|-)$/i, "") || look(emp, n, s).replace(/^n\/?a$/i, "")).trim();
         const li = look(links, n, s) || fromSite[norm(nome)] || "";
-        list.push({ nome, empresa, li });
+        list.push({ nome, empresa, li, nova });
       });
       list.sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
       const ul = document.getElementById("lista");
-      ul.innerHTML = list.length ? list.map((p) => `<li class="card"><div class="who"><span class="name">${esc(p.nome)}</span>${p.empresa ? `<span class="co">${esc(p.empresa)}</span>` : ""}</div>${p.li ? `<a class="li" href="${esc(p.li)}" target="_blank" rel="noopener" aria-label="Conectar com ${esc(p.nome)} no LinkedIn">${LI} Conectar</a>` : ""}</li>`).join("")
+      ul.innerHTML = list.length ? list.map((p) => `<li class="card"><div class="who"><span class="name">${esc(p.nome)}${p.nova ? `<span class="nova">NOVA</span>` : ""}</span>${p.empresa ? `<span class="co">${esc(p.empresa)}</span>` : ""}</div>${p.li ? `<a class="li" href="${esc(p.li)}" target="_blank" rel="noopener" aria-label="Conectar com ${esc(p.nome)} no LinkedIn">${LI} Conectar</a>` : ""}</li>`).join("")
         : `<li class="empty">Ainda não há presenças confirmadas para esta edição.</li>`;
     })
     .catch(() => { document.getElementById("lista").innerHTML = `<li class="empty">Não foi possível carregar a lista agora. Recarregue a página em instantes.</li>`; });
