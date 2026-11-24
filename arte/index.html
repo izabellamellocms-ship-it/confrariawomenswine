@@ -92,7 +92,7 @@ footer a { color: var(--ink); }
 
 <script type="module">
 const W = 1080, H = 1920;
-const ARCH = { x: 250, y: 650, w: 580, h: 740 };
+const ARCH = { x: 250, y: 690, w: 580, h: 740 };
 const C = { bg: "#3d0610", ink: "#f8efe6", soft: "rgba(248,239,230,.78)", line: "rgba(248,239,230,.28)", deep: "#2a0306", wine: "#6a1e2a" };
 const SERIF = '"Bodoni Moda", Georgia, serif', SANS = '"Figtree", Arial, sans-serif';
 const $ = (id) => document.getElementById(id);
@@ -125,13 +125,11 @@ function draw() {
   // moldura fina
   ctx.strokeStyle = C.line; ctx.lineWidth = 2; ctx.strokeRect(40, 40, W - 80, H - 80);
 
-  spaced("WOMEN'S WINE", W / 2, 178, 46, `400 46px ${SERIF}`, 0.2, C.ink);
-  ctx.fillStyle = C.ink; ctx.fillRect(W / 2 - 60, 212, 120, 2);
-  spaced("CONFRARIA DE VINHO DE MULHERES DE O&G E ENERGIA", W / 2, 272, 21, `600 21px ${SANS}`, 0.16, C.soft);
-
-  text("Nos vemos no", W / 2, 372, `italic 400 56px ${SERIF}`, C.ink);
-  text("3º e último", W / 2, 478, `400 108px ${SERIF}`, C.ink);
-  text("encontro do ano", W / 2, 586, `400 108px ${SERIF}`, C.ink);
+  text("Eu vou pro", W / 2, 250, `italic 400 64px ${SERIF}`, C.ink);
+  text("3º e último", W / 2, 366, `400 112px ${SERIF}`, C.ink);
+  text("encontro do ano", W / 2, 478, `400 112px ${SERIF}`, C.ink);
+  spaced("DA CONFRARIA DE MULHERES DE", W / 2, 560, 26, `600 26px ${SANS}`, 0.18, C.soft);
+  spaced("ÓLEO, GÁS E ENERGIA", W / 2, 604, 26, `600 26px ${SANS}`, 0.18, C.soft);
 
   // arco com a foto
   const a = ARCH;
@@ -150,13 +148,9 @@ function draw() {
   ctx.strokeStyle = "rgba(248,239,230,.85)"; ctx.lineWidth = 3;
   archPath(a.x - 14, a.y - 14, a.w + 28, a.h + 28); ctx.stroke();
 
-  // selo "EU VOU"
-  const pw = 230, phh = 66, px = W / 2 - pw / 2, py = a.y + a.h - phh / 2 + 14;
-  ctx.fillStyle = C.ink; ctx.beginPath(); ctx.roundRect(px, py, pw, phh, phh / 2); ctx.fill();
-  spaced("EU VOU", W / 2, py + 44, 28, `700 28px ${SANS}`, 0.22, C.bg);
-
-  text("25 · 11 · 2026", W / 2, 1546, `400 66px ${SERIF}`, C.ink);
-  spaced("QUARTA-FEIRA · 19H", W / 2, 1606, 26, `600 26px ${SANS}`, 0.2, C.soft);
+  // assinatura
+  spaced("WOMEN'S WINE", W / 2, 1590, 64, `400 64px ${SERIF}`, 0.2, C.ink);
+  ctx.fillStyle = C.ink; ctx.fillRect(W / 2 - 70, 1630, 140, 2);
 }
 
 function fitPerson() {
